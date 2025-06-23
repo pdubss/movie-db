@@ -6,3 +6,10 @@ export const getMovies = async () => {
   );
   return res.data;
 };
+
+export const searchMovies = async (query: string) => {
+  const res = await axios.get(
+    `http://www.omdbapi.com/?s=${query}&apikey=ff71c59f`
+  );
+  return res.data;
+};
