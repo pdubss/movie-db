@@ -19,9 +19,6 @@ const Carousel = () => {
     <div className="overflow-x-hidden" ref={emblaRef}>
       <div className="flex h-[400px]">
         <div className="shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-          Slide 1
-        </div>
-        <div className="shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
           Slide 2
         </div>
         <div className="shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
