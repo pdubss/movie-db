@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getMovies } from "@/queries/queries";
 import Spinner from "@/components/ui/Spinner";
+import Carousel from "@/components/ui/Carousel";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -24,6 +25,8 @@ function Index() {
             Here you'll be able to browse new movies to watch, and rate the ones
             you've already finished!
           </p>
+          <Carousel />
+
           <p>{data.Title}</p>
           <img className="h-[445px] w-[300px]" src={data.Poster} />
         </div>
