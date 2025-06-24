@@ -28,7 +28,7 @@ const Header = () => {
       <div className="relative mx-auto">
         <input
           onChange={(e) => setQuery(e.target.value)}
-          className="bg-white text-black w-sm md:w-md lg:w-2xl"
+          className="bg-white text-black  md:w-md lg:w-2xl"
           type="text"
         />
 
