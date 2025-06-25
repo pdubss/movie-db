@@ -16,20 +16,34 @@ const Carousel = () => {
   }, [emblaApi]);
 
   return (
-    <div className="overflow-x-hidden" ref={emblaRef}>
-      <div className="flex h-[400px]">
-        <div className="shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-          Slide 2
-        </div>
-        <div className="shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-          Slide 3
-        </div>
-        <div className="shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-          Slide 4
+    <div className="flex flex-col gap-4">
+      <div className="overflow-x-hidden " ref={emblaRef}>
+        <div className="flex h-[400px]">
+          <div className="shrink-0 w-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
+            Slide 1
+          </div>
+          <div className="shrink-0 w-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
+            Slide 2
+          </div>
+          <div className="shrink-0 w-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
+            Slide 3
+          </div>
         </div>
       </div>
-      <button onClick={scrollPrev}>Prev</button>
-      <button onClick={scrollNext}>Next</button>
+      <div className="flex gap-2 w-full justify-center">
+        <button
+          className="bg-yellow-400 px-2 py-1 text-black rounded-lg"
+          onClick={scrollPrev}
+        >
+          Prev
+        </button>
+        <button
+          className="bg-yellow-400 px-2 py-1 text-black rounded-lg"
+          onClick={scrollNext}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

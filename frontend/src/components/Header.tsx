@@ -22,10 +22,10 @@ const Header = () => {
   console.log(data);
 
   return (
-    <nav className="p-2 h-14 bg-[rgb(17,17,17)] text-yellow-400 flex gap-5 items-center">
+    <nav className="p-4 h-14 bg-[rgb(17,17,17)] text-yellow-400 flex gap-5 items-center">
       <Link to="/">home</Link>
-      <Link to="/about">about me</Link>
-      <div className="relative mx-auto">
+      <Link to="/about">about</Link>
+      <div className="relative">
         <input
           onChange={(e) => setQuery(e.target.value)}
           className="bg-white text-black  md:w-md lg:w-2xl"
@@ -45,6 +45,7 @@ const Header = () => {
             ))}
         </ul>
       </div>
+      <button className="border border-yellow-500">Login</button>
     </nav>
   );
 };

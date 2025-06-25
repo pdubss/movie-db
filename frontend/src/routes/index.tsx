@@ -19,7 +19,7 @@ function Index() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="text-yellow-400 flex flex-col flex-1">
+        <div className="text-yellow-400 flex flex-col flex-1 gap-4">
           <h2 className=" text-2xl">Welcome to the Landing Page!</h2>
           <p>
             Here you'll be able to browse new movies to watch, and rate the ones
