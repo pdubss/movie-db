@@ -32,13 +32,13 @@ const Carousel = () => {
       </div>
       <div className="flex gap-2 w-full justify-center">
         <button
-          className="bg-yellow-400 px-2 py-1 text-black rounded-lg"
+          className="bg-yellow-400 transition-colors duration-300 hover:bg-yellow-200 px-2 py-1 text-black rounded-lg cursor-pointer"
           onClick={scrollPrev}
         >
           Prev
         </button>
         <button
-          className="bg-yellow-400 px-2 py-1 text-black rounded-lg"
+          className="bg-yellow-400 transition-colors duration-300 hover:bg-yellow-200 px-2 py-1 text-black rounded-lg cursor-pointer"
           onClick={scrollNext}
         >
           Next

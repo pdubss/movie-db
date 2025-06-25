@@ -45,7 +45,9 @@ const Header = () => {
             ))}
         </ul>
       </div>
-      <button className="border border-yellow-500">Login</button>
+      <button className="border px-2 py-1 cursor-pointer border-yellow-500">
+        Login
+      </button>
     </nav>
   );
 };
