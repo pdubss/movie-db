@@ -1,8 +1,14 @@
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback } from "react";
+import type { Movie } from "@/queries/queries";
+import Slide from "./Slide";
 
-const Carousel = () => {
+interface CarouselProps {
+  trending: Movie[] | undefined;
+}
+
+const Carousel = ({ trending }: CarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
     [Autoplay()]
@@ -19,15 +25,15 @@ const Carousel = () => {
     <div className="flex flex-col gap-4">
       <div className="overflow-x-hidden " ref={emblaRef}>
         <div className="flex h-[400px]">
-          <div className="shrink-0 w-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-            Slide 1
-          </div>
-          <div className="shrink-0 w-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-            Slide 2
-          </div>
-          <div className="shrink-0 w-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-            Slide 3
-          </div>
+          {trending &&
+            trending.map((movie) => (
+              <Slide
+                Title={movie.title}
+                Poster={""}
+                Background={""}
+                Subtext={""}
+              />
+            ))}
         </div>
       </div>
       <div className="flex gap-2 w-full justify-center">

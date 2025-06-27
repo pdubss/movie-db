@@ -4,12 +4,6 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useDebounce } from "use-debounce";
 
-interface Movie {
-  Title: string;
-  Year: string;
-  Poster: string;
-}
-
 const Header = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
@@ -33,14 +27,14 @@ const Header = () => {
         />
 
         <ul className="absolute top-10 left-0 z-10 w-full">
-          {data?.Response === "True" &&
-            data.Search?.length > 0 &&
-            data.Search.map((movie: Movie) => (
+          {data &&
+            data.results?.length > 0 &&
+            data.results.map((movie, index) => (
               <li
                 className="bg-white border mb-1 py-1 px-2 w-full  cursor-pointer"
-                key={movie.Title}
+                key={index}
               >
-                {movie.Title} {movie.Year}
+                {movie.title} {movie.release_date}
               </li>
             ))}
         </ul>

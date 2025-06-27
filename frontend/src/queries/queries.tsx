@@ -1,15 +1,41 @@
 import axios from "axios";
 
-export const getMovies = async () => {
-  const res = await axios.get(
-    "http://www.omdbapi.com/?i=tt3896198&apikey=ff71c59f"
+export interface Movie {
+  poster_path: string;
+  popularity: number;
+  overview: string;
+  title: string;
+  vote_average: number;
+  vote_count: number;
+  release_date: string;
+  backdrop_path: string;
+}
+
+interface MovieResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
+
+export const searchMovies = async (query: string) => {
+  const res = await axios.get<MovieResponse>(
+    `https://api.themoviedb.org/3/search/movie?query=${query}`,
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    }
   );
   return res.data;
 };
 
-export const searchMovies = async (query: string) => {
-  const res = await axios.get(
-    `http://www.omdbapi.com/?s=${query}&apikey=ff71c59f`
+export const getTrending = async () => {
+  const res = await axios.get<MovieResponse>(
+    "https://api.themoviedb.org/3/trending/movie/week?language=en-US';",
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    }
   );
   return res.data;
 };
+
+console.log(import.meta.env.VITE_TMDB_KEY);
