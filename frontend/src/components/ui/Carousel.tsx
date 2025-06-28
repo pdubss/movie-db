@@ -24,14 +24,14 @@ const Carousel = ({ trending }: CarouselProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="overflow-x-hidden " ref={emblaRef}>
-        <div className="flex h-[400px]">
+        <div className="flex h-[550px]">
           {trending &&
             trending.map((movie) => (
               <Slide
                 Title={movie.title}
-                Poster={""}
-                Background={""}
-                Subtext={""}
+                Poster={movie.poster_path}
+                Background={movie.backdrop_path}
+                Subtext={movie.overview}
               />
             ))}
         </div>
