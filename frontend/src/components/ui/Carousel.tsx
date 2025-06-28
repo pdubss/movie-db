@@ -24,7 +24,7 @@ const Carousel = ({ trending }: CarouselProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="overflow-x-hidden " ref={emblaRef}>
-        <div className="flex h-[550px]">
+        <div className="flex h-[600px]">
           {trending &&
             trending.map((movie) => (
               <Slide

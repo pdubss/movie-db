@@ -14,10 +14,11 @@ const combinedBackdropPath = IMAGE_BASE_URL + BACKDROP_SIZE;
 const Slide = ({ Title, Poster, Background, Subtext }: SlideProps) => {
   return (
     <li className="relative shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
+      <div className="absolute inset-0 bg-black/30 z-1" />
       <h2 className="text-3xl absolute inset-0 top-5 z-10 text-white">
         {Title}
       </h2>
-      <p className="rounded-lg bg-black/70 w-[75%] text-start text-base absolute z-10 left-55 bottom-10 text-white p-2">
+      <p className=" w-[75%] text-start text-base absolute z-10 left-55 bottom-10 text-white p-2">
         {Subtext}
       </p>
       <img
