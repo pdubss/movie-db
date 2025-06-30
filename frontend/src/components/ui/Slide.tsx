@@ -5,7 +5,7 @@ interface SlideProps {
   Subtext: string;
 }
 
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w154";
 const BACKDROP_SIZE = "w1280";
 const combinedPosterPath = IMAGE_BASE_URL + POSTER_SIZE;
@@ -14,7 +14,7 @@ const combinedBackdropPath = IMAGE_BASE_URL + BACKDROP_SIZE;
 const Slide = ({ Title, Poster, Background, Subtext }: SlideProps) => {
   return (
     <li className="relative shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-      <div className="absolute inset-0 bg-black/30 z-1" />
+      <div className="absolute inset-0 bg-black/20 z-1" />
       <h2 className="text-3xl absolute inset-0 top-5 z-10 text-white">
         {Title}
       </h2>
