@@ -4,6 +4,15 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useDebounce } from "use-debounce";
 import { IMAGE_BASE_URL } from "./ui/Slide";
+import { Input } from "./ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [query, setQuery] = useState("");
@@ -20,12 +29,30 @@ const Header = () => {
     <nav className="p-4 h-14 bg-[rgb(17,17,17)] text-white flex gap-5 items-center">
       <Link to="/">home</Link>
       <Link to="/about">about</Link>
-      <div className="relative">
-        <input
+      <div className="relative flex">
+        <DropdownMenu>
+          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Input
           onChange={(e) => setQuery(e.target.value)}
-          className="bg-white text-black  md:w-md lg:w-2xl p-1 rounded-md"
+          className="md:w-lg lg:w-xl"
           type="text"
+          value={query}
         />
+        <button
+          onClick={() => setQuery("")}
+          className="cursor-pointer absolute text-white right-3 top-1"
+        >
+          X
+        </button>
 
         <ul className="absolute top-12 left-0 z-10 w-full">
           {data &&
