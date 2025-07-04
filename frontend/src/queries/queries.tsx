@@ -18,9 +18,9 @@ interface MovieResponse {
   total_results: number;
 }
 
-export const searchMovies = async (query: string) => {
+export const search = async (category: string, query: string) => {
   const res = await axios.get<MovieResponse>(
-    `https://api.themoviedb.org/3/search/movie?query=${query}`,
+    `https://api.themoviedb.org/3/search/${category}?query=${query}`,
     {
       headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
     }
