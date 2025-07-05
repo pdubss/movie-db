@@ -1,8 +1,8 @@
 interface SlideProps {
   Title: string;
   Poster: string;
-  Background: string;
-  Subtext: string;
+  Background?: string;
+  Subtext?: string;
 }
 
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
