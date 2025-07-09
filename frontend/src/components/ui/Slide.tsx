@@ -1,8 +1,11 @@
+import { Link } from "@tanstack/react-router";
+
 interface SlideProps {
   Title: string;
   Poster: string;
   Background?: string;
   Subtext?: string;
+  id: number;
 }
 
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
@@ -11,24 +14,26 @@ const BACKDROP_SIZE = "w1280";
 const combinedPosterPath = IMAGE_BASE_URL + POSTER_SIZE;
 const combinedBackdropPath = IMAGE_BASE_URL + BACKDROP_SIZE;
 
-const Slide = ({ Title, Poster, Background, Subtext }: SlideProps) => {
+const Slide = ({ Title, Poster, Background, Subtext, id }: SlideProps) => {
   return (
-    <li className="relative shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
-      <div className="absolute inset-0 bg-black/20 z-1" />
-      <h2 className="text-3xl absolute inset-0 top-5 z-10 text-white">
-        {Title}
-      </h2>
-      <p className=" w-[75%] text-start text-base absolute z-10 left-55 bottom-10 text-white p-2">
-        {Subtext}
-      </p>
-      <img
-        className="rounded-md absolute left-2 bottom-2 z-10"
-        src={combinedPosterPath + Poster}
-      />
-      <img
-        className="absolute inset-0 w-full h-full z-0"
-        src={combinedBackdropPath + Background}
-      />
+    <li className="cursor-pointer relative shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
+      <Link to="/movies/$movieId" params={{ movieId: id.toString() }}>
+        <div className="absolute inset-0 bg-black/20 z-1" />
+        <h2 className="text-3xl absolute inset-0 top-5 z-10 text-white">
+          {Title}
+        </h2>
+        <p className=" w-[75%] text-start text-base absolute z-10 left-55 bottom-10 text-white p-2">
+          {Subtext}
+        </p>
+        <img
+          className="rounded-md absolute left-2 bottom-2 z-10"
+          src={combinedPosterPath + Poster}
+        />
+        <img
+          className="absolute inset-0 w-full h-full z-0"
+          src={combinedBackdropPath + Background}
+        />
+      </Link>
     </li>
   );
 };

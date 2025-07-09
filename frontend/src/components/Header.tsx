@@ -68,6 +68,7 @@ const Header = () => {
                 const movie = item as Movie;
                 return (
                   <MovieCard
+                    id={movie.id}
                     key={index}
                     title={movie.title}
                     poster_path={movie.poster_path}

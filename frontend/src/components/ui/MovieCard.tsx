@@ -22,9 +22,9 @@ export default function MovieCard({
       <div className="flex flex-col justify-start">
         <h2 className="text-xl">{title}</h2>
         <span>{release_date.split("-")[0]}</span>
-        <span>Average Rating: {vote_average}</span>
+        <span>Average Rating: {vote_average.toString().slice(0, 4)}⭐</span>
         <span>Rating Count: {vote_count}</span>
-        <span>Popularity: {popularity}</span>
+        <span>Popularity: {popularity.toString().slice(0, 4)}</span>
       </div>
     </li>
   );

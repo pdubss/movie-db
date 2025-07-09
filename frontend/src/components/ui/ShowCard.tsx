@@ -22,8 +22,8 @@ function ShowCard({
       <div className="flex flex-col justify-start">
         <h2 className="text-xl">{name}</h2>
         <span>{first_air_date.split("-")[0]}</span>
-        <span>{vote_average}</span>
-        <span>{vote_count}</span>
+        <span>{vote_average.toString().slice(0, 4)}⭐</span>
+        <span>Rating Count: {vote_count}</span>
       </div>
     </li>
   );

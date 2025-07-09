@@ -11,6 +11,7 @@ export interface Movie {
   release_date: string;
   backdrop_path?: string | undefined;
   overview?: string | undefined;
+  id: number;
 }
 
 interface MovieResponse {
@@ -85,5 +86,16 @@ export const getTrending = async () => {
   );
   return res.data;
 };
+
+export async function getMovieById(movieId: string) {
+  const res = await axios.get<Movie>(
+    `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos
+`,
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    }
+  );
+  return res.data;
+}
 
 export default fetchResults;

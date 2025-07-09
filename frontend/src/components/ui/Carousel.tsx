@@ -32,6 +32,7 @@ const Carousel = ({ trending }: CarouselProps) => {
                 Poster={movie.poster_path}
                 Background={movie.backdrop_path}
                 Subtext={movie.overview}
+                id={movie.id}
               />
             ))}
         </div>
