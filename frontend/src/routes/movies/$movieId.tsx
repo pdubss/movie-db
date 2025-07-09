@@ -10,22 +10,45 @@ export const Route = createFileRoute("/movies/$movieId")({
 
 function RouteComponent() {
   const { movieId } = Route.useParams();
-  const { data: movie, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["details"],
     queryFn: () => getMovieById(movieId),
   });
-  if (movie) {
-    console.log(movie);
-  }
+  console.log(data);
 
   return (
-    <div className="w-full h-screen text-white">
+    <div className="w-full h-full flex flex-col gap-2 text-white">
       {isLoading ? (
         <Spinner />
       ) : (
         <>
-          <h2>{movie?.title}</h2>
-          <img src={`${IMAGE_BASE_URL}w500${movie?.poster_path}`} />
+          <h1 className="text-4xl font-semibold">{data?.movie.title}</h1>
+          <div className="flex justify-between">
+            <div className="flex gap-3">
+              <span>{data?.movie.release_date.split("-")[0]}</span>
+              <span>{data?.movie.runtime}m</span>
+            </div>
+            <div className="flex gap-4">
+              <span>your rating</span>
+              <span>popularity</span>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <img
+              className="h-82 w-56"
+              src={`${IMAGE_BASE_URL}w500${data?.movie.poster_path}`}
+            />
+            {data?.trailerKey && (
+              <iframe
+                src={`https://www.youtube.com/embed/${data?.trailerKey}`}
+                title={`${data?.movie.title} movie trailer`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+                className="w-[1080px] h-[600px]"
+              />
+            )}
+          </div>
         </>
       )}
     </div>

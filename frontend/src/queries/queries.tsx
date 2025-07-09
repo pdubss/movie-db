@@ -14,6 +14,29 @@ export interface Movie {
   id: number;
 }
 
+export interface MovieInfo extends Movie {
+  runtime: number;
+  videos: {
+    results: Video[];
+  };
+}
+
+interface Video {
+  id: string;
+  iso_3166_1: string;
+  iso_639__1: string;
+  key: string;
+  name: string;
+  official: boolean;
+  site: string;
+  type: string;
+}
+
+interface VideoResponse {
+  id: number;
+  results: Video[];
+}
+
 interface MovieResponse {
   page: number;
   results: Movie[];
@@ -88,14 +111,30 @@ export const getTrending = async () => {
 };
 
 export async function getMovieById(movieId: string) {
-  const res = await axios.get<Movie>(
-    `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos
+  const [movieResponse, videoResponse] = await Promise.all([
+    axios.get<MovieInfo>(
+      `https://api.themoviedb.org/3/movie/${movieId}
 `,
-    {
-      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-    }
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      }
+    ),
+    axios.get<VideoResponse>(
+      `https://api.themoviedb.org/3/movie/${movieId}/videos`,
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      }
+    ),
+  ]);
+  const trailer = videoResponse.data.results.find(
+    (vid) => vid.type === "Trailer" && vid.site === "YouTube"
   );
-  return res.data;
+
+  return {
+    movie: movieResponse.data,
+    videos: videoResponse.data.results,
+    trailerKey: trailer?.key,
+  };
 }
 
 export default fetchResults;

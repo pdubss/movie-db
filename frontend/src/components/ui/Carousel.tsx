@@ -26,8 +26,9 @@ const Carousel = ({ trending }: CarouselProps) => {
       <div className="overflow-x-hidden " ref={emblaRef}>
         <div className="flex h-[600px]">
           {trending &&
-            trending.map((movie) => (
+            trending.map((movie, index) => (
               <Slide
+                key={index}
                 Title={movie.title}
                 Poster={movie.poster_path}
                 Background={movie.backdrop_path}
