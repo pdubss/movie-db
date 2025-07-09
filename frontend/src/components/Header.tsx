@@ -29,7 +29,7 @@ const Header = () => {
   console.log(data);
 
   return (
-    <nav className="p-4 h-14 bg-[rgb(17,17,17)] text-white flex gap-5 items-center">
+    <nav className="flex h-14 items-center gap-5 bg-[rgb(17,17,17)] p-4 text-white">
       <Link to="/">home</Link>
       <Link to="/about">about</Link>
 
@@ -55,7 +55,7 @@ const Header = () => {
         />
         <button
           onClick={() => setQuery("")}
-          className="cursor-pointer absolute text-white right-3 top-1"
+          className="absolute top-1 right-3 cursor-pointer text-white"
         >
           X
         </button>
@@ -76,6 +76,7 @@ const Header = () => {
                     vote_average={movie.vote_average}
                     vote_count={movie.vote_count}
                     release_date={movie.release_date}
+                    setQuery={setQuery}
                   />
                 );
               } else if (category === "tv") {
@@ -111,7 +112,7 @@ const Header = () => {
           ) : null}
         </ul>
       </div>
-      <button className="border px-2 py-1 cursor-pointer border-yellow-500">
+      <button className="cursor-pointer border border-yellow-500 px-2 py-1">
         Login
       </button>
     </nav>
