@@ -60,6 +60,18 @@ interface TvResponse {
   total_results: number;
 }
 
+interface ImageResponse {
+  backdrops: Image[];
+}
+interface Image {
+  aspect_ratio: number;
+  height: number;
+  file_path: string;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+
 interface PersonResponse {
   page: number;
   total_pages: number;
@@ -75,19 +87,19 @@ export interface Person {
 
 async function fetchResults(
   category: "movie",
-  query: string
+  query: string,
 ): Promise<MovieResponse>;
 
 async function fetchResults(
   category: "person",
-  query: string
+  query: string,
 ): Promise<PersonResponse>;
 
 async function fetchResults(category: "tv", query: string): Promise<TvResponse>;
 
 async function fetchResults(
   category: CategoryType,
-  query: string
+  query: string,
 ): Promise<PersonResponse | MovieResponse | TvResponse>;
 
 async function fetchResults(category: CategoryType, query: string) {
@@ -95,7 +107,7 @@ async function fetchResults(category: CategoryType, query: string) {
     `https://api.themoviedb.org/3/search/${category}?query=${query}`,
     {
       headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-    }
+    },
   );
   return res.data;
 }
@@ -105,35 +117,43 @@ export const getTrending = async () => {
     "https://api.themoviedb.org/3/trending/movie/week?language=en-US';",
     {
       headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-    }
+    },
   );
   return res.data;
 };
 
 export async function getMovieById(movieId: string) {
-  const [movieResponse, videoResponse] = await Promise.all([
+  const [movieResponse, videoResponse, imageResponse] = await Promise.all([
     axios.get<MovieInfo>(
       `https://api.themoviedb.org/3/movie/${movieId}
 `,
       {
         headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-      }
+      },
     ),
     axios.get<VideoResponse>(
       `https://api.themoviedb.org/3/movie/${movieId}/videos`,
       {
         headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-      }
+      },
+    ),
+    axios.get<ImageResponse>(
+      `https://api.themoviedb.org/3/movie/${movieId}/images`,
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      },
     ),
   ]);
   const trailer = videoResponse.data.results.find(
-    (vid) => vid.type === "Trailer" && vid.site === "YouTube"
+    (vid) =>
+      vid.type === "Trailer" && vid.site === "YouTube" && vid.official === true,
   );
 
   return {
     movie: movieResponse.data,
     videos: videoResponse.data.results,
     trailerKey: trailer?.key,
+    images: imageResponse.data.backdrops,
   };
 }
 
