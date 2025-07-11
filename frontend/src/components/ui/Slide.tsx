@@ -16,21 +16,19 @@ const combinedBackdropPath = IMAGE_BASE_URL + BACKDROP_SIZE;
 
 const Slide = ({ Title, Poster, Background, Subtext, id }: SlideProps) => {
   return (
-    <li className="cursor-pointer relative shrink-0 basis-[90%] mr-5 bg-white rounded shadow p-6 text-center text-xl">
+    <li className="relative mr-5 shrink-0 basis-[90%] cursor-pointer rounded bg-white p-6 text-center text-xl shadow">
       <Link to="/movies/$movieId" params={{ movieId: id.toString() }}>
-        <div className="absolute inset-0 bg-black/20 z-1" />
-        <h2 className="text-3xl absolute inset-0 top-5 z-10 text-white">
-          {Title}
-        </h2>
-        <p className=" w-[75%] text-start text-base absolute z-10 left-55 bottom-10 text-white p-2">
-          {Subtext}
-        </p>
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-transparent to-transparent" />
+        <div className="absolute bottom-10 left-50 z-10 flex flex-col items-start gap-2 p-2">
+          <h2 className="text-3xl font-semibold text-white">{Title}</h2>
+          <p className="w-[75%] text-start text-base text-white">{Subtext}</p>
+        </div>
         <img
-          className="rounded-md absolute left-2 bottom-2 z-10"
+          className="absolute bottom-2 left-2 z-10 rounded-md"
           src={combinedPosterPath + Poster}
         />
         <img
-          className="absolute inset-0 w-full h-full z-0"
+          className="absolute inset-0 z-0 h-full w-full"
           src={combinedBackdropPath + Background}
         />
       </Link>

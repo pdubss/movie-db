@@ -148,6 +148,17 @@ function RouteComponent() {
               </div>
             </div>
           </div>
+          <ul className="flex gap-2">
+            {data?.movie.genres.map((genre) => (
+              <Link
+                to="/movies/genre/$genreId"
+                params={{ genreId: genre.id.toString() }}
+                className="rounded-md bg-[#121212] px-2 py-1"
+              >
+                {genre.name}
+              </Link>
+            ))}
+          </ul>
         </>
       )}
     </div>

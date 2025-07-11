@@ -29,9 +29,11 @@ const Header = () => {
   console.log(data);
 
   return (
-    <nav className="flex h-14 items-center gap-5 bg-[rgb(17,17,17)] p-4 text-white">
-      <Link to="/">home</Link>
-      <Link to="/about">about</Link>
+    <nav className="flex h-14 items-center justify-center gap-5 bg-[rgb(17,17,17)] p-4 text-white">
+      <Link to="/">Homepage</Link>
+      <Link to="/movies">Movies</Link>
+      <Link to="/shows">Shows</Link>
+      <Link to="/about">About</Link>
 
       <div className="relative flex">
         <Select
@@ -77,6 +79,7 @@ const Header = () => {
                     vote_count={movie.vote_count}
                     release_date={movie.release_date}
                     setQuery={setQuery}
+                    genres={movie.genres}
                   />
                 );
               } else if (category === "tv") {

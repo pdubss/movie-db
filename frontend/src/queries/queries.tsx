@@ -12,6 +12,7 @@ export interface Movie {
   backdrop_path?: string | undefined;
   overview?: string | undefined;
   id: number;
+  genres: Genre[];
 }
 
 export interface MovieInfo extends Movie {
@@ -70,6 +71,15 @@ interface Image {
   vote_average: number;
   vote_count: number;
   width: number;
+}
+
+interface GenresResponse {
+  genres: Genre[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
 }
 
 interface PersonResponse {
@@ -144,6 +154,7 @@ export async function getMovieById(movieId: string) {
       },
     ),
   ]);
+
   const trailer = videoResponse.data.results.find(
     (vid) =>
       vid.type === "Trailer" && vid.site === "YouTube" && vid.official === true,
@@ -154,6 +165,31 @@ export async function getMovieById(movieId: string) {
     videos: videoResponse.data.results,
     trailerKey: trailer?.key,
     images: imageResponse.data.backdrops,
+  };
+}
+
+export async function getMoviesByGenre(genreId: string) {
+  const [movies, genres] = await Promise.all([
+    axios.get<MovieResponse>(
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genreId}`,
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      },
+    ),
+    axios.get<GenresResponse>(
+      "https://api.themoviedb.org/3/genre/movie/list?language=en",
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      },
+    ),
+  ]);
+  const genre = genres.data.genres.find(
+    (genre) => genre.id.toString() === genreId,
+  );
+
+  return {
+    movies: movies.data,
+    genre,
   };
 }
 
