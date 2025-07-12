@@ -30,10 +30,10 @@ const Header = () => {
 
   return (
     <nav className="flex h-14 items-center justify-center gap-5 bg-[rgb(17,17,17)] p-4 text-white">
-      <Link to="/">Homepage</Link>
-      <Link to="/movies">Movies</Link>
-      <Link to="/shows">Shows</Link>
-      <Link to="/about">About</Link>
+      <Link to="/">HOMEPAGE</Link>
+      <Link to="/movies">MOVIES</Link>
+      <Link to="/shows">SHOWS</Link>
+      <Link to="/about">ABOUT</Link>
 
       <div className="relative flex">
         <Select

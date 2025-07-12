@@ -13,6 +13,7 @@ export interface Movie {
   overview?: string | undefined;
   id: number;
   genres: Genre[];
+  runtime?: number;
 }
 
 export interface MovieInfo extends Movie {
@@ -114,7 +115,7 @@ async function fetchResults(
 
 async function fetchResults(category: CategoryType, query: string) {
   const res = await axios.get(
-    `https://api.themoviedb.org/3/search/${category}?query=${query}`,
+    `https://api.themoviedb.org/3/search/${category}?query=${query}&language=en`,
     {
       headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
     },
@@ -168,10 +169,10 @@ export async function getMovieById(movieId: string) {
   };
 }
 
-export async function getMoviesByGenre(genreId: string) {
+export async function getMoviesByGenre(genreId: string, page: number) {
   const [movies, genres] = await Promise.all([
     axios.get<MovieResponse>(
-      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genreId}`,
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`,
       {
         headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
       },
