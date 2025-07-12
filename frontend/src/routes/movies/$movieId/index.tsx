@@ -3,6 +3,7 @@ import Spinner from "@/components/ui/Spinner";
 import { getMovieById } from "@/queries/queries";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 export const Route = createFileRoute("/movies/$movieId/")({
   component: RouteComponent,
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/movies/$movieId/")({
 
 function RouteComponent() {
   const { movieId } = Route.useParams();
+  const [isWatchlist, setIsWatchlist] = useState(false);
   const { data, isLoading } = useQuery({
     queryKey: ["details", movieId],
     queryFn: () => getMovieById(movieId),
@@ -81,10 +83,46 @@ function RouteComponent() {
             </div>
           </div>
           <div className="flex justify-between">
-            <img
-              className="h-[26r.25em] w-70 rounded-md"
-              src={`${IMAGE_BASE_URL}w500${data?.movie.poster_path}`}
-            />
+            <div className="relative">
+              <button
+                onClick={() => setIsWatchlist((val) => !val)}
+                className="absolute top-2 left-2 cursor-pointer"
+              >
+                {isWatchlist ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-8"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M6.32 2.577a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 0 1-1.085.67L12 18.089l-7.165 3.583A.75.75 0 0 1 3.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                    />
+                  </svg>
+                )}
+              </button>
+              <img
+                className="h-[26r.25em] w-70 rounded-md"
+                src={`${IMAGE_BASE_URL}w500${data?.movie.poster_path}`}
+              />
+            </div>
             {data?.trailerKey ? (
               <iframe
                 src={`https://www.youtube.com/embed/${data?.trailerKey}`}

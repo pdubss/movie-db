@@ -18,10 +18,9 @@ function Index() {
   }
 
   return (
-    <div className="p-4 h-full">
-      <div className="text-yellow-400 flex flex-col flex-1 gap-4">
-        <h2 className=" text-2xl">Trending Movies</h2>
-
+    <div className="h-full p-4">
+      <div className="flex h-full flex-1 flex-col justify-center gap-4 text-yellow-400">
+        <h2 className="text-2xl">Trending Movies</h2>
         {isLoading ? <Spinner /> : <Carousel trending={trending?.results} />}
       </div>
     </div>

@@ -34,7 +34,6 @@ const Header = () => {
       <Link to="/movies">MOVIES</Link>
       <Link to="/shows">SHOWS</Link>
       <Link to="/about">ABOUT</Link>
-
       <div className="relative flex">
         <Select
           value={category}
@@ -115,6 +114,8 @@ const Header = () => {
           ) : null}
         </ul>
       </div>
+      {/* change to Link once user accounts are implemented */}
+      <button>WATCHLIST</button>
       <button className="cursor-pointer border border-yellow-500 px-2 py-1">
         Login
       </button>
