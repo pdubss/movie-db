@@ -90,10 +90,22 @@ interface PersonResponse {
   results: Person[];
 }
 export interface Person {
+  gender: number;
+  id: number;
   known_for_department: string;
   name: string;
   profile_path: string;
   known_for?: Movie[] | TvShow[];
+}
+interface CrewMember extends Person {
+  job: string;
+  department: string;
+}
+
+interface CreditsResponse {
+  id: number;
+  cast: Person[];
+  crew: CrewMember[];
 }
 
 async function fetchResults(
@@ -134,38 +146,55 @@ export const getTrending = async () => {
 };
 
 export async function getMovieById(movieId: string) {
-  const [movieResponse, videoResponse, imageResponse] = await Promise.all([
-    axios.get<MovieInfo>(
-      `https://api.themoviedb.org/3/movie/${movieId}
+  const [movieResponse, videoResponse, imageResponse, creditsResponse] =
+    await Promise.all([
+      axios.get<MovieInfo>(
+        `https://api.themoviedb.org/3/movie/${movieId}
 `,
-      {
-        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-      },
-    ),
-    axios.get<VideoResponse>(
-      `https://api.themoviedb.org/3/movie/${movieId}/videos`,
-      {
-        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-      },
-    ),
-    axios.get<ImageResponse>(
-      `https://api.themoviedb.org/3/movie/${movieId}/images`,
-      {
-        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
-      },
-    ),
-  ]);
+        {
+          headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+        },
+      ),
+      axios.get<VideoResponse>(
+        `https://api.themoviedb.org/3/movie/${movieId}/videos`,
+        {
+          headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+        },
+      ),
+      axios.get<ImageResponse>(
+        `https://api.themoviedb.org/3/movie/${movieId}/images`,
+        {
+          headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+        },
+      ),
+      axios.get<CreditsResponse>(
+        `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+        {
+          headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+        },
+      ),
+    ]);
 
   const trailer = videoResponse.data.results.find(
     (vid) =>
       vid.type === "Trailer" && vid.site === "YouTube" && vid.official === true,
   );
 
+  const director = creditsResponse.data.crew.find(
+    (crew) => crew.job === "Director",
+  );
+  const writers = creditsResponse.data.crew
+    .filter((crew) => crew.department === "Writing")
+    .slice(0, 4);
+
   return {
     movie: movieResponse.data,
     videos: videoResponse.data.results,
     trailerKey: trailer?.key,
+    director,
+    writers,
     images: imageResponse.data.backdrops,
+    credits: creditsResponse.data,
   };
 }
 

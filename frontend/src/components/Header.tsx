@@ -101,6 +101,8 @@ const Header = () => {
                     key={index}
                     known_for_department={person.known_for_department}
                     profile_path={person.profile_path}
+                    gender={person.gender}
+                    id={person.id}
                   />
                 );
               }

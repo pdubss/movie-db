@@ -186,17 +186,51 @@ function RouteComponent() {
               </div>
             </div>
           </div>
-          <ul className="flex gap-2">
-            {data?.movie.genres.map((genre) => (
-              <Link
-                to="/movies/genre/$genreId"
-                params={{ genreId: genre.id.toString() }}
-                className="rounded-md bg-[#121212] px-2 py-1"
-              >
-                {genre.name}
-              </Link>
-            ))}
-          </ul>
+          <div className="mt-4 flex flex-col gap-4">
+            {" "}
+            <ul className="flex gap-2">
+              {data?.movie.genres.map((genre, index) => (
+                <Link
+                  key={index}
+                  to="/movies/genre/$genreId"
+                  params={{ genreId: genre.id.toString() }}
+                  className="rounded-xl border border-white px-2 py-0.5 hover:bg-[#242323]"
+                >
+                  {genre.name}
+                </Link>
+              ))}
+            </ul>
+            <div>
+              <p className="text-lg">{data?.movie.overview}</p>
+            </div>
+            <hr className="text-white" />
+            <div className="flex items-center gap-4">
+              <span className="text-lg font-semibold">Director</span>
+              <span className="cursor-pointer text-blue-500">
+                {data?.director?.name}
+              </span>
+            </div>
+            <hr className="text-white" />
+            <div className="flex gap-4">
+              <span className="text-lg font-semibold">Writers</span>
+              <ul className="flex gap-4">
+                {data?.writers.map((writer) => (
+                  <li className="cursor-pointer text-blue-500">
+                    {writer.name}{" "}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <hr className="text-white" />
+            {data && (
+              <ul className="flex items-center gap-4">
+                <span className="text-lg font-semibold">Stars</span>
+                {data.credits.cast.slice(0, 5).map((cast) => (
+                  <li className="cursor-pointer text-blue-500">{cast.name}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         </>
       )}
     </div>
