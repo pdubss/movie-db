@@ -11,7 +11,7 @@ interface CarouselProps {
 const Carousel = ({ trending }: CarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
-    [Autoplay()]
+    [Autoplay()],
   );
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -23,7 +23,7 @@ const Carousel = ({ trending }: CarouselProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="overflow-x-hidden " ref={emblaRef}>
+      <div className="overflow-x-hidden" ref={emblaRef}>
         <div className="flex h-[600px]">
           {trending &&
             trending.map((movie, index) => (
@@ -38,15 +38,15 @@ const Carousel = ({ trending }: CarouselProps) => {
             ))}
         </div>
       </div>
-      <div className="flex gap-2 w-full justify-center">
+      <div className="flex w-full justify-center gap-4">
         <button
-          className="bg-yellow-400 transition-colors duration-300 hover:bg-yellow-200 px-2 py-1 text-black rounded-lg cursor-pointer"
+          className="cursor-pointer rounded-lg bg-yellow-400 px-2 py-1 text-black transition-colors duration-300 hover:bg-yellow-200"
           onClick={scrollPrev}
         >
           Prev
         </button>
         <button
-          className="bg-yellow-400 transition-colors duration-300 hover:bg-yellow-200 px-2 py-1 text-black rounded-lg cursor-pointer"
+          className="cursor-pointer rounded-lg bg-yellow-400 px-2 py-1 text-black transition-colors duration-300 hover:bg-yellow-200"
           onClick={scrollNext}
         >
           Next

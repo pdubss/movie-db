@@ -29,7 +29,7 @@ const Header = () => {
   console.log(data);
 
   return (
-    <nav className="flex h-14 items-center justify-center gap-5 bg-[rgb(17,17,17)] p-4 text-white">
+    <nav className="flex h-14 items-center justify-center gap-5 bg-[rgb(17,17,17)] p-4 font-semibold text-white">
       <Link to="/">HOMEPAGE</Link>
       <Link to="/movies">MOVIES</Link>
       <Link to="/shows">SHOWS</Link>
