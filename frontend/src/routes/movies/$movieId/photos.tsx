@@ -40,6 +40,7 @@ function RouteComponent() {
           <ul className="grid grid-cols-5 gap-3">
             {data?.images.slice(start, end).map((image) => (
               <img
+                loading="lazy"
                 className="cursor-pointer rounded-md"
                 src={`${BASE_URL}w342${image.file_path}`}
               />
@@ -49,28 +50,34 @@ function RouteComponent() {
             <div className="flex gap-4">
               {" "}
               <button
-                className="rounded-md bg-yellow-400 px-2 py-1 text-black"
+                className={`${page === 1 ? "bg-gray-500" : "bg-yellow-400"} rounded-md px-2 py-1 text-black`}
                 disabled={page === 1}
                 onClick={() => setPage((page) => page - 1)}
               >
                 Back
               </button>
               <button
-                className="rounded-md bg-yellow-400 px-2 py-1 text-black"
+                className={`${page >= numPages ? "bg-gray-500" : "bg-yellow-400"} rounded-md px-2 py-1 text-black`}
                 onClick={() => setPage((page) => page + 1)}
+                disabled={page >= numPages}
               >
                 Next
               </button>{" "}
             </div>
 
-            <select className="w-14 bg-white text-center text-black">
+            <select
+              value={page}
+              onChange={(e) => setPage(+e.target.value)}
+              className="w-20 bg-white text-center text-black"
+              disabled={numPages === 0}
+            >
               {Array.from({ length: numPages }, (_, index) => (
                 <option
                   className="bg-black text-center"
+                  value={index + 1}
                   key={index}
-                  value={page + 1}
                 >
-                  {index + 1}
+                  Page {index + 1}
                 </option>
               ))}
             </select>
