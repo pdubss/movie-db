@@ -34,6 +34,7 @@ const Header = () => {
       <Link to="/movies">MOVIES</Link>
       <Link to="/shows">SHOWS</Link>
       <Link to="/about">ABOUT</Link>
+      <Link to="/people">PEOPLE</Link>
       <div className="relative flex">
         <Select
           value={category}

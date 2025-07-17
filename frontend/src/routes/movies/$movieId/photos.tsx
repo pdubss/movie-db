@@ -38,12 +38,14 @@ function RouteComponent() {
             </Link>{" "}
           </h1>
           <ul className="grid grid-cols-5 gap-3">
-            {data?.images.slice(start, end).map((image) => (
-              <img
-                loading="lazy"
-                className="cursor-pointer rounded-md"
-                src={`${BASE_URL}w342${image.file_path}`}
-              />
+            {data?.images.slice(start, end).map((image, i) => (
+              <li key={i}>
+                <img
+                  loading="lazy"
+                  className="cursor-pointer rounded-md"
+                  src={`${BASE_URL}w342${image.file_path}`}
+                />
+              </li>
             ))}
           </ul>
           <div className="flex flex-col items-center gap-4">
