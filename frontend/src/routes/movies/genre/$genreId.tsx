@@ -16,7 +16,6 @@ function RouteComponent() {
     queryKey: ["movies", genreId, page],
     queryFn: () => getMoviesByGenre(genreId, page),
   });
-  console.log(data);
 
   const movieDetailQueries = useQueries({
     queries: (data?.movies.results ?? []).map((movie) => ({
@@ -26,7 +25,7 @@ function RouteComponent() {
     })),
   });
 
-  console.log(movieDetailQueries);
+  console.log(movieDetailQueries, "movie queries");
 
   function PrevHandler() {
     if (page > 1) {
@@ -51,7 +50,7 @@ function RouteComponent() {
                 const movieDetail = movieDetailQueries[index];
                 const runtime = movieDetail.data?.movie.runtime;
                 return (
-                  <li key={index}>
+                  <li key={movie.id}>
                     <Link
                       className="flex flex-col gap-1"
                       to={`/movies/$movieId`}

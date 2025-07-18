@@ -223,4 +223,29 @@ export async function getMoviesByGenre(genreId: string, page: number) {
   };
 }
 
+export async function fetchShowGenres() {
+  const res = await axios.get<GenresResponse>(
+    "https://api.themoviedb.org/3/genre/tv/list?language=en",
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    },
+  );
+  return res.data;
+}
+
+export async function fetchShowsByGenre(genre: string) {
+  const [shows] = await Promise.all([
+    axios.get<TvResponse>(
+      `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genre}`,
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      },
+    ),
+  ]);
+
+  return {
+    shows,
+  };
+}
+
 export default fetchResults;

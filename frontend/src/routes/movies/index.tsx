@@ -17,7 +17,7 @@ function RouteComponent() {
   });
 
   if (moviesByGenreQueries) {
-    console.log(moviesByGenreQueries[0].data?.movies.results[0].title);
+    console.log(moviesByGenreQueries);
   }
   return (
     <div className="flex flex-col gap-4 text-white">
@@ -38,7 +38,7 @@ function RouteComponent() {
           </div>
           <ul className="grid grid-cols-8 gap-3">
             {query.data?.movies.results.slice(0, 8).map((movie) => (
-              <li className="cursor-pointer">
+              <li className="hover:scale-110vid transform cursor-pointer transition-transform duration-300 hover:z-10">
                 <Link
                   className="flex flex-col gap-2"
                   to="/movies/$movieId"
