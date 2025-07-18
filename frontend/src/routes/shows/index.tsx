@@ -32,12 +32,15 @@ function RouteComponent() {
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
               <h2 className="text-2xl font-semibold">{data?.genres[i].name}</h2>
-              <Link
-                className="rounded-md bg-green-500 px-2 py-1 text-black"
-                to="/about"
-              >
-                MORE +
-              </Link>
+              {data?.genres[i].id && (
+                <Link
+                  className="rounded-md bg-green-500 px-2 py-1 text-black"
+                  to="/shows/genre/$genreId"
+                  params={{ genreId: data?.genres[i].id.toString() }}
+                >
+                  MORE +
+                </Link>
+              )}
             </div>
 
             <ul className="grid gap-4 xl:grid-cols-8">

@@ -249,4 +249,29 @@ export async function fetchShowsByGenre(genre: string) {
   };
 }
 
+export async function getShowsByGenre(genreId: string, page: number) {
+  const [shows, genres] = await Promise.all([
+    axios.get<TvResponse>(
+      `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreId}`,
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      },
+    ),
+    axios.get<GenresResponse>(
+      "https://api.themoviedb.org/3/genre/tv/list?language=en",
+      {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+      },
+    ),
+  ]);
+  const genre = genres.data.genres.find(
+    (genre) => genre.id.toString() === genreId,
+  );
+
+  return {
+    shows: shows.data,
+    genre,
+  };
+}
+
 export default fetchResults;
