@@ -50,7 +50,10 @@ function RouteComponent() {
                 const movieDetail = movieDetailQueries[index];
                 const runtime = movieDetail.data?.movie.runtime;
                 return (
-                  <li key={movie.id}>
+                  <li
+                    className="transform cursor-pointer transition-transform duration-300 hover:z-10 hover:scale-110"
+                    key={movie.id}
+                  >
                     <Link
                       className="flex flex-col gap-1"
                       to={`/movies/$movieId`}

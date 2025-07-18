@@ -2,7 +2,7 @@ import { IMAGE_BASE_URL } from "@/components/ui/Slide";
 import Spinner from "@/components/ui/Spinner";
 import { getShowsByGenre } from "@/queries/queries";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/shows/genre/$genreId")({
@@ -28,16 +28,22 @@ function RouteComponent() {
           </h1>
           <ul className="grid gap-6 xl:grid-cols-5">
             {data.shows.results.map((show) => (
-              <li className="flex flex-col gap-2">
-                <img
-                  className="rounded-md"
-                  src={`${IMAGE_BASE_URL}w185${show.poster_path}`}
-                />
-                <div className="flex gap-2">
-                  {" "}
-                  <span>{show.name}</span>
-                  <span>{show.first_air_date.split("-")[0]}</span>
-                </div>
+              <li className="transform cursor-pointer transition-transform duration-300 hover:z-10 hover:scale-110">
+                <Link
+                  className="flex flex-col gap-2"
+                  to="/shows/$showId"
+                  params={{ showId: show.id.toString() }}
+                >
+                  <img
+                    className="rounded-md"
+                    src={`${IMAGE_BASE_URL}w185${show.poster_path}`}
+                  />
+                  <div className="flex gap-2">
+                    {" "}
+                    <span>{show.name}</span>
+                    <span>{show.first_air_date.split("-")[0]}</span>
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>
