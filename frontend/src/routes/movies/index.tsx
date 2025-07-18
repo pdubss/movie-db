@@ -36,9 +36,9 @@ function RouteComponent() {
               MORE +
             </Link>
           </div>
-          <ul className="grid grid-cols-8 gap-3">
+          <ul className="grid grid-cols-8 gap-4">
             {query.data?.movies.results.slice(0, 8).map((movie) => (
-              <li className="hover:scale-110vid transform cursor-pointer transition-transform duration-300 hover:z-10">
+              <li className="transform cursor-pointer transition-transform duration-300 hover:z-10 hover:scale-110">
                 <Link
                   className="flex flex-col gap-2"
                   to="/movies/$movieId"

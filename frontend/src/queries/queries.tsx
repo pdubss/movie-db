@@ -47,6 +47,7 @@ interface MovieResponse {
 }
 
 export interface TvShow {
+  id: number;
   first_air_date: string;
   name: string;
   poster_path: string;
