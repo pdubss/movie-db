@@ -30,10 +30,18 @@ const Header = () => {
 
   return (
     <nav className="flex h-14 items-center justify-center gap-5 bg-[rgb(17,17,17)] p-4 font-semibold text-white">
-      <Link to="/">HOMEPAGE</Link>
-      <Link to="/movies">MOVIES</Link>
-      <Link to="/shows">SHOWS</Link>
-      <Link to="/people">PEOPLE</Link>
+      <Link className="hover:text-gray-300" to="/">
+        HOMEPAGE
+      </Link>
+      <Link className="hover:text-gray-300" to="/movies">
+        MOVIES
+      </Link>
+      <Link className="hover:text-gray-300" to="/shows">
+        SHOWS
+      </Link>
+      <Link className="hover:text-gray-300" to="/people">
+        PEOPLE
+      </Link>
       <div className="relative flex">
         <Select
           value={category}
@@ -85,6 +93,7 @@ const Header = () => {
                 const show = item as TvShow;
                 return (
                   <ShowCard
+                    id={show.id}
                     name={show.name}
                     key={index}
                     first_air_date={show.first_air_date}
@@ -117,9 +126,11 @@ const Header = () => {
         </ul>
       </div>
       {/* change to Link once user accounts are implemented */}
-      <button>WATCHLIST</button>
-      <Link to="/about">ABOUT</Link>
-      <button className="cursor-pointer border border-yellow-500 px-2 py-1">
+      <button className="hover:text-gray-300">WATCHLIST</button>
+      <Link className="hover:text-gray-300" to="/about">
+        ABOUT
+      </Link>
+      <button className="cursor-pointer border border-yellow-500 px-2 py-1 hover:text-gray-300">
         Login
       </button>
     </nav>

@@ -56,6 +56,31 @@ export interface TvShow {
   backdrop_path?: string | null;
 }
 
+export interface TvShowDetails extends TvShow {
+  popularity: number;
+  status: string;
+  tagline: string;
+  homepage: string;
+  last_air_date: string;
+  genres: Genre[];
+  created_by: {
+    id: number;
+    credit_id: string;
+    name: string;
+    profile_path: string;
+  }[];
+  seasons: {
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
+    overview: string;
+    poster_path: string;
+    season_number: number;
+    vote_average: number;
+  }[];
+}
+
 interface TvResponse {
   page: number;
   results: TvShow[];
@@ -272,6 +297,17 @@ export async function getShowsByGenre(genreId: string, page: number) {
     shows: shows.data,
     genre,
   };
+}
+
+export async function getShowById(series_id: string) {
+  const res = await axios.get<TvShowDetails>(
+    `https://api.themoviedb.org/3/tv/${series_id}
+`,
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    },
+  );
+  return res.data;
 }
 
 export default fetchResults;

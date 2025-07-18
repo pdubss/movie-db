@@ -23,13 +23,10 @@ function RouteComponent() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <>
-          <h1 className="text-4xl font-semibold">{data?.movie.title}</h1>
+        <div className="flex flex-col gap-1">
           <div className="flex justify-between">
-            <div className="flex gap-3">
-              <span>{data?.movie.release_date.split("-")[0]}</span>
-              <span>{data?.movie.runtime}m</span>
-            </div>
+            <h1 className="text-5xl">{data?.movie.title}</h1>
+
             <div className="flex gap-4">
               <div className="flex flex-col">
                 <span className="font-semibold">TMDb RATING</span>
@@ -81,6 +78,10 @@ function RouteComponent() {
                 <span className="text-center">{data?.movie.popularity}</span>
               </div>
             </div>
+          </div>
+          <div className="flex gap-3">
+            <span>{data?.movie.release_date.split("-")[0]}</span>
+            <span>{data?.movie.runtime}m</span>
           </div>
           <div className="flex justify-between">
             <div className="relative">
@@ -231,7 +232,7 @@ function RouteComponent() {
               </ul>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

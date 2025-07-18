@@ -38,8 +38,7 @@ function RouteComponent() {
                     className="rounded-md"
                     src={`${IMAGE_BASE_URL}w185${show.poster_path}`}
                   />
-                  <div className="flex gap-2">
-                    {" "}
+                  <div className="flex justify-between">
                     <span>{show.name}</span>
                     <span>{show.first_air_date.split("-")[0]}</span>
                   </div>
