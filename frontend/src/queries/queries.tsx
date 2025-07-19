@@ -62,6 +62,10 @@ export interface TvShowDetails extends TvShow {
   tagline: string;
   homepage: string;
   last_air_date: string;
+  videos: {
+    results: Video[];
+  };
+  images: Image[];
   genres: Genre[];
   created_by: {
     id: number;
@@ -301,13 +305,21 @@ export async function getShowsByGenre(genreId: string, page: number) {
 
 export async function getShowById(series_id: string) {
   const res = await axios.get<TvShowDetails>(
-    `https://api.themoviedb.org/3/tv/${series_id}
+    `https://api.themoviedb.org/3/tv/${series_id}?append_to_response=videos,images
 `,
     {
       headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
     },
   );
-  return res.data;
+
+  const trailer = res.data.videos.results.find(
+    (vid) => vid.type === "Trailer" && vid.site === "YouTube",
+  );
+
+  return {
+    details: res.data,
+    trailer,
+  };
 }
 
 export default fetchResults;
