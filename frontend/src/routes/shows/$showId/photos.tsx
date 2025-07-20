@@ -44,7 +44,7 @@ function RouteComponent() {
     <div className="flex flex-col gap-8 py-4">
       {openOverlay && (
         <Overlay setOpenOverlay={setOpenOverlay}>
-          <img src={`${IMAGE_BASE_URL}w500${path}`} />
+          <img className="rounded-md" src={`${IMAGE_BASE_URL}w500${path}`} />
         </Overlay>
       )}
       <h1 className="text-center text-2xl">

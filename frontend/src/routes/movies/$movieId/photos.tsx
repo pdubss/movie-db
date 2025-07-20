@@ -3,6 +3,7 @@ import { getMovieById } from "@/queries/queries";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import Overlay from "@/components/ui/Overlay";
 
 export const Route = createFileRoute("/movies/$movieId/photos")({
   component: RouteComponent,
@@ -10,6 +11,8 @@ export const Route = createFileRoute("/movies/$movieId/photos")({
 
 function RouteComponent() {
   const { movieId } = Route.useParams();
+  const [openOverlay, setOpenOverlay] = useState(false);
+  const [path, setPath] = useState("");
   const [page, setPage] = useState(1);
   const { data, isLoading } = useQuery({
     queryKey: ["details", movieId],
@@ -21,8 +24,18 @@ function RouteComponent() {
   const end = page * 20;
   const numPages = Math.ceil((data?.images.length ?? 0) / 20);
 
+  function onClickHandler(path: string) {
+    setOpenOverlay(true);
+    setPath(path);
+  }
+
   return (
     <div className="h-full w-full">
+      {openOverlay && (
+        <Overlay setOpenOverlay={setOpenOverlay}>
+          <img className="rounded-md" src={`${BASE_URL}w500${path}`} />
+        </Overlay>
+      )}
       {isLoading ? (
         <Spinner />
       ) : (
@@ -39,7 +52,7 @@ function RouteComponent() {
           </h1>
           <ul className="grid grid-cols-5 gap-3">
             {data?.images.slice(start, end).map((image, i) => (
-              <li key={i}>
+              <li key={i} onClick={() => onClickHandler(image.file_path)}>
                 <img
                   loading="lazy"
                   className="cursor-pointer rounded-md"

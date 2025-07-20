@@ -26,7 +26,7 @@ export default function Overlay({ children, setOpenOverlay }: OverlayProps) {
           {children}
           <button
             onClick={() => setOpenOverlay(false)}
-            className="absolute top-2 right-2 cursor-pointer border border-red-500 bg-black px-2 text-2xl text-red-500"
+            className="absolute top-2 right-2 cursor-pointer rounded-md border border-red-500 bg-black px-2 text-2xl text-red-500 hover:bg-[#282828]"
           >
             X
           </button>
