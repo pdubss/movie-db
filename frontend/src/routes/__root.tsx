@@ -9,7 +9,7 @@ export const Route = createRootRoute({
   component: () => {
     const queryClient = new QueryClient();
     return (
-      <div className="flex h-screen w-screen flex-col">
+      <div className="flex h-screen w-screen flex-col text-white">
         <QueryClientProvider client={queryClient}>
           <Header />
           <div className="flex-1 bg-black">
