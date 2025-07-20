@@ -40,6 +40,19 @@ function RouteComponent() {
     setPath(path);
   };
 
+  function nextHandler() {
+    if (merged) {
+      const numPages = Math.ceil(merged?.length / resultsPerPage);
+      if (page < numPages) {
+        setPage((page) => page + 1);
+      }
+    }
+  }
+
+  function prevHandler() {
+    if (page > 1) setPage((page) => page - 1);
+  }
+
   return (
     <div className="flex flex-col gap-8 py-4">
       {openOverlay && (
@@ -59,7 +72,10 @@ function RouteComponent() {
           {" "}
           <ul className="grid gap-4 xl:grid-cols-6 xl:grid-rows-5">
             {merged.slice(start * resultsPerPage, end).map((image) => (
-              <li onClick={() => onClickHandler(image.file_path)}>
+              <li
+                className="cursor-pointer"
+                onClick={() => onClickHandler(image.file_path)}
+              >
                 <img src={`${IMAGE_BASE_URL}w185${image.file_path}`} />
               </li>
             ))}
@@ -67,26 +83,24 @@ function RouteComponent() {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => setPage((page) => page - 1)}
-                  href="#"
-                />
+                <PaginationPrevious onClick={prevHandler} href="#" />
               </PaginationItem>
               {Array.from(
                 { length: Math.ceil(merged.length / resultsPerPage) },
                 (_, index) => (
                   <PaginationItem>
-                    <PaginationLink onClick={() => setPage(index + 1)}>
+                    <PaginationLink
+                      isActive={page === index + 1}
+                      className={page === index + 1 ? "text-black" : ""}
+                      onClick={() => setPage(index + 1)}
+                    >
                       {index + 1}
                     </PaginationLink>
                   </PaginationItem>
                 ),
               )}
               <PaginationItem>
-                <PaginationNext
-                  onClick={() => setPage((page) => page + 1)}
-                  href="#"
-                />
+                <PaginationNext onClick={nextHandler} href="#" />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
