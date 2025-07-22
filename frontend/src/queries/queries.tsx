@@ -57,7 +57,12 @@ export interface TvShow {
 }
 
 export interface TvShowDetails extends TvShow {
+  aggregate_credits: {
+    cast: Person[];
+    crew: Person[];
+  };
   popularity: number;
+  overview: string;
   status: string;
   tagline: string;
   homepage: string;
@@ -129,6 +134,16 @@ export interface Person {
   name: string;
   profile_path: string;
   known_for?: Movie[] | TvShow[];
+  combined_credits?: {
+    cast: {
+      character: string;
+      id: number;
+      media_type: string;
+      popularity: number;
+      poster_path: string;
+    }[];
+    crew: { job: string; title: string; popularity: number }[];
+  };
 }
 interface CrewMember extends Person {
   job: string;
@@ -333,6 +348,17 @@ export async function getShowById(series_id: string) {
     details: res.data,
     trailer,
   };
+}
+
+export async function getPersonById(person_id: string) {
+  const res = await axios.get<Person>(
+    `https://api.themoviedb.org/3/person/${person_id}?append_to_response=combined_credits
+`,
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    },
+  );
+  return res.data;
 }
 
 export default fetchResults;

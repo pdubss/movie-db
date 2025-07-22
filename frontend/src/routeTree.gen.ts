@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShowsIndexRouteImport } from './routes/shows/index'
-import { Route as PeopleIndexRouteImport } from './routes/people/index'
 import { Route as MoviesIndexRouteImport } from './routes/movies/index'
 import { Route as PeoplePersonIdRouteImport } from './routes/people/$personId'
 import { Route as ShowsShowIdIndexRouteImport } from './routes/shows/$showId/index'
@@ -37,11 +36,6 @@ const IndexRoute = IndexRouteImport.update({
 const ShowsIndexRoute = ShowsIndexRouteImport.update({
   id: '/shows/',
   path: '/shows/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PeopleIndexRoute = PeopleIndexRouteImport.update({
-  id: '/people/',
-  path: '/people/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MoviesIndexRoute = MoviesIndexRouteImport.update({
@@ -100,7 +94,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/people/$personId': typeof PeoplePersonIdRoute
   '/movies': typeof MoviesIndexRoute
-  '/people': typeof PeopleIndexRoute
   '/shows': typeof ShowsIndexRoute
   '/movies/$movieId/photos': typeof MoviesMovieIdPhotosRoute
   '/movies/$movieId/videos': typeof MoviesMovieIdVideosRoute
@@ -116,7 +109,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/people/$personId': typeof PeoplePersonIdRoute
   '/movies': typeof MoviesIndexRoute
-  '/people': typeof PeopleIndexRoute
   '/shows': typeof ShowsIndexRoute
   '/movies/$movieId/photos': typeof MoviesMovieIdPhotosRoute
   '/movies/$movieId/videos': typeof MoviesMovieIdVideosRoute
@@ -133,7 +125,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/people/$personId': typeof PeoplePersonIdRoute
   '/movies/': typeof MoviesIndexRoute
-  '/people/': typeof PeopleIndexRoute
   '/shows/': typeof ShowsIndexRoute
   '/movies/$movieId/photos': typeof MoviesMovieIdPhotosRoute
   '/movies/$movieId/videos': typeof MoviesMovieIdVideosRoute
@@ -151,7 +142,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/people/$personId'
     | '/movies'
-    | '/people'
     | '/shows'
     | '/movies/$movieId/photos'
     | '/movies/$movieId/videos'
@@ -167,7 +157,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/people/$personId'
     | '/movies'
-    | '/people'
     | '/shows'
     | '/movies/$movieId/photos'
     | '/movies/$movieId/videos'
@@ -183,7 +172,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/people/$personId'
     | '/movies/'
-    | '/people/'
     | '/shows/'
     | '/movies/$movieId/photos'
     | '/movies/$movieId/videos'
@@ -200,7 +188,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   PeoplePersonIdRoute: typeof PeoplePersonIdRoute
   MoviesIndexRoute: typeof MoviesIndexRoute
-  PeopleIndexRoute: typeof PeopleIndexRoute
   ShowsIndexRoute: typeof ShowsIndexRoute
   MoviesMovieIdPhotosRoute: typeof MoviesMovieIdPhotosRoute
   MoviesMovieIdVideosRoute: typeof MoviesMovieIdVideosRoute
@@ -233,13 +220,6 @@ declare module '@tanstack/react-router' {
       path: '/shows'
       fullPath: '/shows'
       preLoaderRoute: typeof ShowsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/people/': {
-      id: '/people/'
-      path: '/people'
-      fullPath: '/people'
-      preLoaderRoute: typeof PeopleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/movies/': {
@@ -320,7 +300,6 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   PeoplePersonIdRoute: PeoplePersonIdRoute,
   MoviesIndexRoute: MoviesIndexRoute,
-  PeopleIndexRoute: PeopleIndexRoute,
   ShowsIndexRoute: ShowsIndexRoute,
   MoviesMovieIdPhotosRoute: MoviesMovieIdPhotosRoute,
   MoviesMovieIdVideosRoute: MoviesMovieIdVideosRoute,

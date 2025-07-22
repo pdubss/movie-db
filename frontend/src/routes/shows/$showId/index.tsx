@@ -15,7 +15,7 @@ function RouteComponent() {
     queryFn: () => getShowById(showId),
   });
 
-  console.log(data);
+  if (data) console.log(data);
 
   return (
     <div className="w-full py-5 text-white">
@@ -151,6 +151,55 @@ function RouteComponent() {
               </li>
             ))}
           </ul>
+
+          <p className="text-lg">{data.details.overview}</p>
+          <hr />
+          <div className="flex gap-4">
+            <span className="font-bold">Creator</span>
+
+            <ul className="flex gap-4">
+              {data.details.created_by.map((creator, i) => (
+                <li key={i}>
+                  <Link className="text-blue-500" to="/">
+                    {creator.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <hr />
+          <div className="flex gap-4">
+            <span className="font-bold">Stars</span>
+            <ul className="flex gap-4">
+              {data.details.aggregate_credits.cast.slice(0, 5).map((cast) => (
+                <Link
+                  className="text-blue-500"
+                  to="/people/$personId"
+                  params={{ personId: cast.id.toString() }}
+                >
+                  {cast.name}
+                </Link>
+              ))}
+            </ul>
+          </div>
+          <hr />
+          <div className="flex gap-4">
+            <span className="font-bold">Writers</span>
+            <ul className="flex gap-4">
+              {data.details.aggregate_credits.crew
+                .filter((crew) => crew.known_for_department === "Writing")
+                .slice(0, 4)
+                .map((writer) => (
+                  <Link
+                    className="text-blue-500"
+                    to="/people/$personId"
+                    params={{ personId: writer.id.toString() }}
+                  >
+                    {writer.name}
+                  </Link>
+                ))}
+            </ul>
+          </div>
         </div>
       ) : (
         <Spinner />

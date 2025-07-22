@@ -204,30 +204,49 @@ function RouteComponent() {
             <div>
               <p className="text-lg">{data?.movie.overview}</p>
             </div>
-            <hr className="text-white" />
+            <hr />
             <div className="flex items-center gap-4">
               <span className="text-lg font-semibold">Director</span>
-              <span className="cursor-pointer text-blue-500">
-                {data?.director?.name}
-              </span>
+
+              {data?.director && (
+                <Link
+                  className="text-blue-500"
+                  to="/people/$personId"
+                  params={{ personId: data?.director?.id.toString() }}
+                >
+                  {data?.director?.name}
+                </Link>
+              )}
             </div>
-            <hr className="text-white" />
-            <div className="flex gap-4">
+            <hr />
+            <div className="flex items-center gap-4">
               <span className="text-lg font-semibold">Writers</span>
               <ul className="flex gap-4">
                 {data?.writers.map((writer) => (
                   <li className="cursor-pointer text-blue-500">
-                    {writer.name}{" "}
+                    <Link
+                      to="/people/$personId"
+                      params={{ personId: writer.id.toString() }}
+                    >
+                      {writer.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
-            <hr className="text-white" />
+            <hr />
             {data && (
               <ul className="flex items-center gap-4">
                 <span className="text-lg font-semibold">Stars</span>
                 {data.credits.cast.slice(0, 5).map((cast) => (
-                  <li className="cursor-pointer text-blue-500">{cast.name}</li>
+                  <li className="cursor-pointer text-blue-500">
+                    <Link
+                      to="/people/$personId"
+                      params={{ personId: cast.id.toString() }}
+                    >
+                      {cast.name}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             )}

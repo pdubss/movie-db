@@ -39,9 +39,7 @@ const Header = () => {
       <Link className="hover:text-gray-300" to="/shows">
         SHOWS
       </Link>
-      <Link className="hover:text-gray-300" to="/people">
-        PEOPLE
-      </Link>
+
       <div className="relative flex">
         <Select
           value={category}
