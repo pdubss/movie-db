@@ -10,7 +10,7 @@ export const Route = createFileRoute("/shows/")({
 
 function RouteComponent() {
   const { data } = useQuery({
-    queryKey: ["genres"],
+    queryKey: ["showGenres"],
     queryFn: () => fetchShowGenres(),
   });
 
@@ -55,7 +55,7 @@ function RouteComponent() {
                       src={`${IMAGE_BASE_URL}w185${show.poster_path}`}
                     />
                     <div className="flex justify-between">
-                      <span>{show.name}</span>
+                      <span className="font-semibold">{show.name}</span>
                       <span>{show.first_air_date.slice(0, 4)}</span>
                     </div>
                   </Link>

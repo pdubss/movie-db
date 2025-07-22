@@ -256,6 +256,16 @@ export async function getMoviesByGenre(genreId: string, page: number) {
   };
 }
 
+export async function fetchMovieGenres() {
+  const res = await axios.get<GenresResponse>(
+    "https://api.themoviedb.org/3/genre/movie/list",
+    {
+      headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}` },
+    },
+  );
+  return res.data;
+}
+
 export async function fetchShowGenres() {
   const res = await axios.get<GenresResponse>(
     "https://api.themoviedb.org/3/genre/tv/list?language=en",

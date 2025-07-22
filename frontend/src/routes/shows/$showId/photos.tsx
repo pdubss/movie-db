@@ -70,7 +70,7 @@ function RouteComponent() {
       {merged?.length ? (
         <div className="flex flex-col gap-6">
           {" "}
-          <ul className="grid gap-4 xl:grid-cols-6 xl:grid-rows-5">
+          <ul className="grid gap-4 xl:grid-cols-6">
             {merged.slice(start * resultsPerPage, end).map((image) => (
               <li
                 className="cursor-pointer"
