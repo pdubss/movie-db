@@ -110,6 +110,7 @@ const Header = () => {
                     profile_path={person.profile_path}
                     gender={person.gender}
                     id={person.id}
+                    biography={""}
                   />
                 );
               }

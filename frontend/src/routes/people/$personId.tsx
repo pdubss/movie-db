@@ -24,23 +24,26 @@ function RouteComponent() {
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-5xl font-semibold">{data?.name}</h1>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <img
           className="max-h-[20rem] rounded-md"
           src={`${IMAGE_BASE_URL}w342${data?.profile_path}`}
         />
+        <p className="max-h-80 overflow-y-auto px-4 indent-8 leading-relaxed">
+          {data?.biography ? (
+            data.biography
+          ) : (
+            <p>This person doensn't have a biography available yet.</p>
+          )}
+        </p>
       </div>
+
       <div className="flex flex-col gap-6">
-        {data?.combined_credits?.cast.length && (
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full"
-            defaultValue="item-1"
-          >
+        {!!data?.combined_credits?.cast.length && (
+          <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="cursor-pointer border border-white px-2">
-                Actor
+              <AccordionTrigger className="flex cursor-pointer border border-white px-2">
+                Actor - {data.combined_credits.cast.length}
               </AccordionTrigger>
               {data?.combined_credits?.cast.map((credit, i) => (
                 <AccordionContent
@@ -125,13 +128,18 @@ function RouteComponent() {
           </Accordion>
         )}
 
-        {data?.combined_credits?.crew.filter(
+        {!!data?.combined_credits?.crew.filter(
           (credit) => credit.department === "Directing",
         ).length && (
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className="cursor-pointer border px-2">
-                Director
+                Director -{" "}
+                {
+                  data.combined_credits.crew.filter(
+                    (crew) => crew.department === "Directing",
+                  ).length
+                }
               </AccordionTrigger>
               {data.combined_credits.crew
                 .filter((role) => role.department === "Directing")
@@ -217,13 +225,18 @@ function RouteComponent() {
           </Accordion>
         )}
 
-        {data?.combined_credits?.crew.find(
+        {!!data?.combined_credits?.crew.find(
           (crew) => crew.department === "Writing",
         ) && (
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className="cursor-pointer border px-2">
-                Writer
+                Writer -{" "}
+                {
+                  data.combined_credits.crew.filter(
+                    (crew) => crew.department === "Writing",
+                  ).length
+                }
               </AccordionTrigger>
               {data.combined_credits.crew
                 .filter((crew) => crew.department === "Writing")
@@ -309,13 +322,18 @@ function RouteComponent() {
           </Accordion>
         )}
 
-        {data?.combined_credits?.crew.find(
+        {!!data?.combined_credits?.crew.find(
           (crew) => crew.department === "Production",
         ) && (
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className="cursor-pointer border px-2">
-                Producer
+                Producer -{" "}
+                {
+                  data.combined_credits.crew.filter(
+                    (crew) => crew.department === "Production",
+                  ).length
+                }
               </AccordionTrigger>
               {data.combined_credits.crew
                 .filter((crew) => crew.department === "Production")

@@ -160,7 +160,11 @@ function RouteComponent() {
             <ul className="flex gap-4">
               {data.details.created_by.map((creator, i) => (
                 <li key={i}>
-                  <Link className="text-blue-500" to="/">
+                  <Link
+                    className="text-blue-500"
+                    to="/people/$personId"
+                    params={{ personId: creator.id.toString() }}
+                  >
                     {creator.name}
                   </Link>
                 </li>

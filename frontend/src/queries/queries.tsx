@@ -129,6 +129,7 @@ interface PersonResponse {
 }
 export interface Person {
   gender: number;
+  biography: string;
   id: number;
   known_for_department: string;
   name: string;
