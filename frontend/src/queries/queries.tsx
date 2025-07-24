@@ -169,8 +169,11 @@ export interface Person {
           poster_path: string;
           release_date: string;
           media_type: string;
+          vote_average: number;
+          id: number;
         }[]
       | {
+          id: number;
           job: string;
           popularity: number;
           department: string;
@@ -179,6 +182,7 @@ export interface Person {
           first_credit_air_date: string;
           media_type: string;
           name: string;
+          vote_average: number;
         }[];
   };
 }
