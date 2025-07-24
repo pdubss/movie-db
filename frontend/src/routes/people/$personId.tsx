@@ -89,8 +89,8 @@ function RouteComponent() {
                   <div className="flex items-center gap-2">
                     <span>
                       {"release_date" in credit
-                        ? credit.release_date.split("-")[0]
-                        : credit.first_credit_air_date.split("-")[0]}
+                        ? credit.release_date?.split("-")[0]
+                        : credit.first_credit_air_date?.split("-")[0]}
                     </span>
                     <Link
                       to={
@@ -181,8 +181,8 @@ function RouteComponent() {
                     <div className="flex items-center gap-2">
                       <span>
                         {"title" in credit
-                          ? credit.release_date
-                          : credit.first_credit_air_date}
+                          ? credit.release_date?.split("-")[0]
+                          : credit.first_credit_air_date?.split("-")[0]}
                       </span>
                       <Link
                         to={
@@ -273,8 +273,8 @@ function RouteComponent() {
                     <div className="flex items-center gap-2">
                       <span>
                         {"title" in credit
-                          ? credit.release_date.split("-")[0]
-                          : credit.first_credit_air_date.split("-")[0]}
+                          ? credit.release_date?.split("-")[0]
+                          : credit.first_credit_air_date?.split("-")[0]}
                       </span>
                       <Link
                         to={
@@ -376,8 +376,8 @@ function RouteComponent() {
                     <div className="flex items-center gap-2">
                       <span>
                         {"title" in credit
-                          ? credit.release_date
-                          : credit.first_credit_air_date}
+                          ? credit.release_date?.split("-")[0]
+                          : credit.first_credit_air_date?.split("-")[0]}
                       </span>
                       <Link
                         to={
