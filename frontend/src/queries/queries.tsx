@@ -135,14 +135,51 @@ export interface Person {
   profile_path: string;
   known_for?: Movie[] | TvShow[];
   combined_credits?: {
-    cast: {
-      character: string;
-      id: number;
-      media_type: string;
-      popularity: number;
-      poster_path: string;
-    }[];
-    crew: { job: string; title: string; popularity: number }[];
+    cast:
+      | {
+          character: string;
+          id: number;
+          media_type: string;
+          popularity: number;
+          poster_path: string;
+          title: string;
+
+          vote_average: number;
+          vote_count: number;
+          release_date: string;
+        }[]
+      | {
+          character: string;
+          first_air_date: string;
+          id: number;
+          media_type: string;
+          name: string;
+          overview: string;
+          popularity: number;
+          vote_average: number;
+          poster_path: string;
+          first_credit_air_date: string;
+        }[];
+    crew:
+      | {
+          job: string;
+          title: string;
+          popularity: number;
+          department: string;
+          poster_path: string;
+          release_date: string;
+          media_type: string;
+        }[]
+      | {
+          job: string;
+          popularity: number;
+          department: string;
+          poster_path: string;
+          first_air_date: string;
+          first_credit_air_date: string;
+          media_type: string;
+          name: string;
+        }[];
   };
 }
 interface CrewMember extends Person {

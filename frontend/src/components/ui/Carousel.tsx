@@ -5,10 +5,10 @@ import type { Movie } from "@/queries/queries";
 import Slide from "./Slide";
 
 interface CarouselProps {
-  trending: Movie[] | undefined;
+  data: Movie[] | undefined;
 }
 
-const Carousel = ({ trending }: CarouselProps) => {
+const Carousel = ({ data }: CarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
     [Autoplay()],
@@ -25,8 +25,8 @@ const Carousel = ({ trending }: CarouselProps) => {
     <div className="flex flex-col gap-4">
       <div className="overflow-x-hidden" ref={emblaRef}>
         <div className="flex h-[600px]">
-          {trending &&
-            trending.map((movie, index) => (
+          {data &&
+            data.map((movie, index) => (
               <Slide
                 key={index}
                 Title={movie.title}
