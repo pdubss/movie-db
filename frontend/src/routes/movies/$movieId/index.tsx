@@ -228,7 +228,7 @@ function RouteComponent() {
 
               {data?.director && (
                 <Link
-                  className="text-blue-500"
+                  className="text-blue-500 hover:text-blue-400"
                   to="/people/$personId"
                   params={{ personId: data?.director?.id.toString() }}
                 >
@@ -241,7 +241,7 @@ function RouteComponent() {
               <span className="text-lg font-semibold">Writers</span>
               <ul className="flex gap-4">
                 {data?.writers.map((writer) => (
-                  <li className="cursor-pointer text-blue-500">
+                  <li className="cursor-pointer text-blue-500 hover:text-blue-400">
                     <Link
                       to="/people/$personId"
                       params={{ personId: writer.id.toString() }}
@@ -257,7 +257,7 @@ function RouteComponent() {
               <ul className="flex items-center gap-4">
                 <span className="text-lg font-semibold">Stars</span>
                 {data.credits.cast.slice(0, 5).map((cast) => (
-                  <li className="cursor-pointer text-blue-500">
+                  <li className="cursor-pointer text-blue-500 hover:text-blue-400">
                     <Link
                       to="/people/$personId"
                       params={{ personId: cast.id.toString() }}

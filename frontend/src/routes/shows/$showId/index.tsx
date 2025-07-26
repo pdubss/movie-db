@@ -179,7 +179,7 @@ function RouteComponent() {
               {data.details.created_by.map((creator, i) => (
                 <li key={i}>
                   <Link
-                    className="text-blue-500"
+                    className="text-blue-500 hover:text-blue-400"
                     to="/people/$personId"
                     params={{ personId: creator.id.toString() }}
                   >
@@ -195,7 +195,7 @@ function RouteComponent() {
             <ul className="flex gap-4">
               {data.details.aggregate_credits.cast.slice(0, 5).map((cast) => (
                 <Link
-                  className="text-blue-500"
+                  className="text-blue-500 hover:text-blue-400"
                   to="/people/$personId"
                   params={{ personId: cast.id.toString() }}
                 >
@@ -213,7 +213,7 @@ function RouteComponent() {
                 .slice(0, 4)
                 .map((writer) => (
                   <Link
-                    className="text-blue-500"
+                    className="text-blue-500 hover:text-blue-400"
                     to="/people/$personId"
                     params={{ personId: writer.id.toString() }}
                   >
