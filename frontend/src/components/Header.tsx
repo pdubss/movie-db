@@ -124,8 +124,9 @@ const Header = () => {
           ) : null}
         </ul>
       </div>
-      {/* change to Link once user accounts are implemented */}
-      <button className="hover:text-gray-300">WATCHLIST</button>
+      <Link to="/watchlist" className="hover:text-gray-300">
+        WATCHLIST
+      </Link>
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
       </Link>
