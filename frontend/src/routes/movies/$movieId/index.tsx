@@ -19,7 +19,7 @@ function RouteComponent() {
   console.log(data);
 
   return (
-    <div className="flex h-full w-full flex-col gap-2 text-white">
+    <div className="flex h-full w-full flex-col gap-2 py-2 text-white">
       {isLoading ? (
         <Spinner />
       ) : (

@@ -34,7 +34,7 @@ function RouteComponent() {
               <h2 className="text-2xl font-semibold">{data?.genres[i].name}</h2>
               {data?.genres[i].id && (
                 <Link
-                  className="rounded-md bg-green-500 px-2 py-1 text-black"
+                  className="rounded-md bg-green-500 px-2 py-1 font-semibold text-black hover:bg-green-400"
                   to="/shows/genre/$genreId"
                   params={{ genreId: data?.genres[i].id.toString() }}
                 >

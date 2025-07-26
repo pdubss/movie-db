@@ -3,6 +3,7 @@ import Spinner from "@/components/ui/Spinner";
 import { getShowById } from "@/queries/queries";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 export const Route = createFileRoute("/shows/$showId/")({
   component: RouteComponent,
@@ -14,13 +15,14 @@ function RouteComponent() {
     queryKey: ["showDetails", showId],
     queryFn: () => getShowById(showId),
   });
+  const [onWatchlist, setOnWatchlist] = useState(false);
 
   if (data) console.log(data);
 
   return (
-    <div className="w-full py-5 text-white">
+    <div className="w-full text-white">
       {!isLoading && data ? (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <div className="flex w-full justify-between">
             <div className="flex gap-4">
               <h1 className="text-5xl">{data?.details.name}</h1>
@@ -31,13 +33,13 @@ function RouteComponent() {
 
             <div className="flex gap-2 text-center">
               <div className="flex flex-col gap-1">
-                <span>tmDb Rating</span>
+                <span className="font-semibold">TMDb RATING</span>
                 <span>
                   {data.details.vote_average.toString().slice(0, 4)}/10
                 </span>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <span>Your Rating</span>
+                <span className="font-semibold">YOUR RATING</span>
 
                 <button className="flex gap-1">
                   <svg
@@ -58,7 +60,7 @@ function RouteComponent() {
                 </button>
               </div>
               <div className="flex flex-col gap-1">
-                <span>Popularity</span>
+                <span className="font-semibold">POPULARITY</span>
                 <div className="flex justify-center gap-1">
                   <span>
                     {data.details.popularity.toString().split(".")[0]}
@@ -82,11 +84,32 @@ function RouteComponent() {
             </div>
           </div>
 
-          <div className="flex gap-2">
-            <img
-              className="h-[26.25em] w-70 rounded-md"
-              src={`${IMAGE_BASE_URL}w500${data.details.poster_path}`}
-            />{" "}
+          <div className="flex gap-3">
+            <div className="relative">
+              <img
+                className="h-[26.25em] w-70 rounded-md"
+                src={`${IMAGE_BASE_URL}w500${data.details.poster_path}`}
+              />
+              <button
+                onClick={() => setOnWatchlist((value) => !value)}
+                className="absolute top-2 left-2 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill={onWatchlist ? "white" : ""}
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                  />
+                </svg>
+              </button>
+            </div>
             <iframe
               title={`${data.details.name} trailer`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -172,8 +195,8 @@ function RouteComponent() {
 
           <p className="text-lg">{data.details.overview}</p>
           <hr />
-          <div className="flex gap-4">
-            <span className="font-bold">Creator</span>
+          <div className="flex items-center gap-4">
+            <span className="text-lg font-semibold">Creator</span>
 
             <ul className="flex gap-4">
               {data.details.created_by.map((creator, i) => (
@@ -190,8 +213,8 @@ function RouteComponent() {
             </ul>
           </div>
           <hr />
-          <div className="flex gap-4">
-            <span className="font-bold">Stars</span>
+          <div className="flex items-center gap-4">
+            <span className="text-lg font-semibold">Stars</span>
             <ul className="flex gap-4">
               {data.details.aggregate_credits.cast.slice(0, 5).map((cast) => (
                 <Link
@@ -205,8 +228,8 @@ function RouteComponent() {
             </ul>
           </div>
           <hr />
-          <div className="flex gap-4">
-            <span className="font-bold">Writers</span>
+          <div className="flex items-center gap-4">
+            <span className="text-lg font-semibold">Writers</span>
             <ul className="flex gap-4">
               {data.details.aggregate_credits.crew
                 .filter((crew) => crew.known_for_department === "Writing")
