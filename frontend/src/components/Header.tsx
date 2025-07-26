@@ -129,9 +129,12 @@ const Header = () => {
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
       </Link>
-      <button className="cursor-pointer border border-yellow-500 px-2 py-1 hover:text-gray-300">
-        Login
-      </button>
+      <Link
+        to="/login"
+        className="cursor-pointer px-2 py-1 hover:text-gray-300"
+      >
+        LOGIN
+      </Link>
     </nav>
   );
 };
