@@ -3,6 +3,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useCallback } from "react";
 import type { Movie } from "@/queries/queries";
 import Slide from "./Slide";
+import MobileSlide from "./MobileSlide";
 
 interface CarouselProps {
   data: Movie[] | undefined;
@@ -13,18 +14,27 @@ const Carousel = ({ data }: CarouselProps) => {
     { loop: true, align: "center" },
     [Autoplay()],
   );
+  const [mobileEmblaRef, mobileEmblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "center",
+    },
+    [Autoplay()],
+  );
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+    if (mobileEmblaApi) mobileEmblaApi.scrollPrev();
+  }, [emblaApi, mobileEmblaApi]);
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+    if (mobileEmblaApi) mobileEmblaApi.scrollNext();
+  }, [emblaApi, mobileEmblaApi]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="overflow-x-hidden" ref={emblaRef}>
-        <div className="flex h-[600px]">
+    <div className="flex flex-col gap-6">
+      <div className="hidden overflow-x-hidden md:block" ref={emblaRef}>
+        <div className="hidden h-[600px] md:flex">
           {data &&
             data.map((movie, index) => (
               <Slide
@@ -33,6 +43,18 @@ const Carousel = ({ data }: CarouselProps) => {
                 Poster={movie.poster_path}
                 Background={movie.backdrop_path}
                 Subtext={movie.overview}
+                id={movie.id}
+              />
+            ))}
+        </div>
+      </div>
+      <div className="md:hidden" ref={mobileEmblaRef}>
+        <div className="flex h-full md:hidden">
+          {data &&
+            data.map((movie, index) => (
+              <MobileSlide
+                key={index}
+                poster_path={movie.poster_path}
                 id={movie.id}
               />
             ))}
