@@ -32,7 +32,7 @@ const Carousel = ({ data }: CarouselProps) => {
   }, [emblaApi, mobileEmblaApi]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <div className="hidden overflow-x-hidden md:block" ref={emblaRef}>
         <div className="hidden h-[600px] md:flex">
           {data &&
@@ -48,7 +48,7 @@ const Carousel = ({ data }: CarouselProps) => {
             ))}
         </div>
       </div>
-      <div className="md:hidden" ref={mobileEmblaRef}>
+      <div className="overflow-x-hidden md:hidden" ref={mobileEmblaRef}>
         <div className="flex h-full md:hidden">
           {data &&
             data.map((movie, index) => (
