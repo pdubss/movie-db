@@ -12,11 +12,18 @@ export default function MobileSlide({
   key,
 }: MobileSlideProps) {
   return (
-    <li className="relative mr-5 shrink-0 basis-[100%] rounded p-2" key={key}>
-      <Link to="/movies/$movieId" params={{ movieId: id.toString() }}>
+    <li
+      className="relative mr-5 shrink-0 basis-[70%] overflow-hidden"
+      key={key}
+    >
+      <Link
+        className="h-full w-full"
+        to="/movies/$movieId"
+        params={{ movieId: id.toString() }}
+      >
         <img
-          className="h-full w-full"
-          src={`${IMAGE_BASE_URL}w185${poster_path}`}
+          className="rounded-lg"
+          src={`${IMAGE_BASE_URL}w342${poster_path}`}
         />
       </Link>
     </li>
