@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Logo from "../assets/tmdb_logo.svg";
 
 import Header from "@/components/Header";
+import MobileHeader from "@/components/ui/MobileHeader";
 
 export const Route = createRootRoute({
   component: () => {
@@ -11,7 +12,13 @@ export const Route = createRootRoute({
     return (
       <div className="flex h-screen w-screen flex-col text-white">
         <QueryClientProvider client={queryClient}>
-          <Header />
+          <div className="hidden lg:block">
+            <Header />
+          </div>
+          <div className="lg:hidden">
+            <MobileHeader />
+          </div>
+
           <div className="flex-1 bg-black">
             <main className="mx-auto h-full w-2/3 py-4">
               <Outlet />
