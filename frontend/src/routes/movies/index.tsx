@@ -1,4 +1,5 @@
 import MovieDesktopRow from "@/components/ui/MovieDesktopRow";
+import MovieMobileRow from "@/components/ui/MovieMobileRow";
 import Spinner from "@/components/ui/Spinner";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { fetchMovieGenres, getMoviesByGenre } from "@/queries/queries";
@@ -43,7 +44,7 @@ function RouteComponent() {
             {!isMobile ? (
               <MovieDesktopRow query={query} />
             ) : (
-              <p>Mobile placeholder</p>
+              <MovieMobileRow query={query} />
             )}
           </div>
         ))

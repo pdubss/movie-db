@@ -5,19 +5,17 @@ import Logo from "../assets/tmdb_logo.svg";
 
 import Header from "@/components/Header";
 import MobileHeader from "@/components/ui/MobileHeader";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export const Route = createRootRoute({
   component: () => {
     const queryClient = new QueryClient();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const isMobile = useMediaQuery("(max-width:1280px)");
     return (
       <div className="flex h-screen w-screen flex-col text-white">
         <QueryClientProvider client={queryClient}>
-          <div className="hidden lg:block">
-            <Header />
-          </div>
-          <div className="lg:hidden">
-            <MobileHeader />
-          </div>
+          {isMobile ? <MobileHeader /> : <Header />}
 
           <div className="flex-1 bg-black">
             <main className="mx-auto h-full w-2/3 py-4">
