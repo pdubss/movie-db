@@ -23,7 +23,7 @@ function RouteComponent() {
     <div className="w-full text-white">
       {!isLoading && data ? (
         <div className="flex flex-col gap-4">
-          <div className="flex w-full justify-between">
+          <div className="flex w-full flex-col lg:flex-row lg:justify-between">
             <div className="flex gap-4">
               <h1 className="text-5xl">{data?.details.name}</h1>
               <span className="self-end text-lg font-semibold">
@@ -84,7 +84,7 @@ function RouteComponent() {
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 lg:flex-row">
             <div className="relative">
               <img
                 className="h-[26.25em] w-70 rounded-md"
@@ -115,10 +115,10 @@ function RouteComponent() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               loading="lazy"
-              className="h-[26.25rem] w-[48rem] rounded-md"
+              className="h-[26.25rem] w-full rounded-md lg:w-[48rem]"
               src={`https://www.youtube.com/embed/${data.trailer ? data.trailer?.key : data.details.videos.results[0]}`}
             />
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col justify-around gap-2 sm:flex-row lg:flex-col lg:gap-1">
               <div className="h-[13rem] w-[13rem] cursor-pointer rounded-md bg-[#121212] hover:bg-[#282828]">
                 <Link
                   className="flex h-full w-full flex-col items-center justify-center gap-2"
@@ -213,7 +213,7 @@ function RouteComponent() {
             </ul>
           </div>
           <hr />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 overflow-x-auto">
             <span className="text-lg font-semibold">Stars</span>
             <ul className="flex gap-4">
               {data.details.aggregate_credits.cast.slice(0, 5).map((cast) => (
@@ -230,7 +230,7 @@ function RouteComponent() {
           <hr />
           <div className="flex items-center gap-4">
             <span className="text-lg font-semibold">Writers</span>
-            <ul className="flex gap-4">
+            <ul className="flex gap-4 overflow-x-auto">
               {data.details.aggregate_credits.crew
                 .filter((crew) => crew.known_for_department === "Writing")
                 .slice(0, 4)

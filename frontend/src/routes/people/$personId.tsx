@@ -24,7 +24,7 @@ function RouteComponent() {
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-5xl font-semibold">{data?.name}</h1>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col items-center gap-4 md:flex-row">
         <img
           className="max-h-[20rem] rounded-md"
           src={`${IMAGE_BASE_URL}w342${data?.profile_path}`}
