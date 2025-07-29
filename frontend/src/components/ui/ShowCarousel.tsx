@@ -12,8 +12,8 @@ export default function ShowCarousel({ shows }: ShowCarousel) {
     Autoplay(),
   ]);
   return (
-    <div ref={mobileEmblaRef}>
-      <div className="flex">
+    <div className="overflow-x-hidden" ref={mobileEmblaRef}>
+      <div className="flex h-full">
         {shows &&
           shows.map((show) => (
             <MobileSlide

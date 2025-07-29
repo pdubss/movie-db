@@ -17,19 +17,19 @@ function SlideUpMenu({ isOpen, onClose }: SlideUpMenuProps) {
           transition={{ type: "spring", damping: 20, stiffness: 200 }}
           className="fixed right-0 bottom-0 left-0 z-50 flex h-1/2 w-full flex-col items-center justify-around bg-black"
         >
-          <Link className="font-semibold" to="/">
+          <Link onClick={onClose} className="font-semibold" to="/">
             HOME
           </Link>
-          <Link className="font-semibold" to="/movies">
+          <Link onClick={onClose} className="font-semibold" to="/movies">
             MOVIES
           </Link>
-          <Link className="font-semibold" to="/shows">
+          <Link onClick={onClose} className="font-semibold" to="/shows">
             SHOWS
           </Link>
-          <Link className="font-semibold" to="/about">
+          <Link onClick={onClose} className="font-semibold" to="/about">
             ABOUT
           </Link>
-          <Link className="font-semibold" to="/watchlist">
+          <Link onClick={onClose} className="font-semibold" to="/watchlist">
             WATCHLIST
           </Link>
           <button className="font-semibold text-red-500" onClick={onClose}>

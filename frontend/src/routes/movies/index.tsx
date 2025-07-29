@@ -36,9 +36,9 @@ function RouteComponent() {
               <Link
                 to="/movies/genre/$genreId"
                 params={{ genreId: data?.genres[i].id.toString() }}
-                className="rounded-md bg-green-500 px-2 py-1 font-semibold text-black hover:bg-green-400"
+                className="h-8 rounded-md bg-green-500 px-2 py-1 font-semibold text-black hover:bg-green-400"
               >
-                MORE +
+                MORE
               </Link>
             </div>
             {!isMobile ? (
