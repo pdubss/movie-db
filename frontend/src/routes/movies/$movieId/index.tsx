@@ -24,7 +24,7 @@ function RouteComponent() {
         <Spinner />
       ) : (
         <div className="flex flex-col gap-1">
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
             <h1 className="text-5xl">{data?.movie.title}</h1>
 
             <div className="flex gap-4">
@@ -101,7 +101,7 @@ function RouteComponent() {
             <span>{data?.movie.release_date.split("-")[0]}</span>
             <span>{data?.movie.runtime}m</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col lg:flex-row lg:justify-between">
             <div className="relative">
               <button
                 onClick={() => setIsWatchlist((val) => !val)}
@@ -138,7 +138,7 @@ function RouteComponent() {
                 )}
               </button>
               <img
-                className="h-[26r.25em] w-70 rounded-md"
+                className="h-[26r.25em] max-w-70 shrink-0 rounded-md"
                 src={`${IMAGE_BASE_URL}w500${data?.movie.poster_path}`}
               />
             </div>
@@ -149,12 +149,12 @@ function RouteComponent() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 loading="lazy"
-                className="h-[26.25rem] w-[48rem] rounded-md"
+                className="h-[26.25rem] w-full rounded-md lg:w-[48rem]"
               />
             ) : (
               <span className="text-white">NO TRAILER AVAILABLE</span>
             )}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-row justify-around gap-1 lg:flex-col">
               <div className="h-[13rem] w-[13rem] cursor-pointer gap-2 rounded-md bg-[#121212] hover:bg-[#282828]">
                 <Link
                   className="flex h-full w-full flex-col items-center justify-center gap-1"
@@ -254,7 +254,7 @@ function RouteComponent() {
             </div>
             <hr />
             {data && (
-              <ul className="flex items-center gap-4">
+              <ul className="flex items-center gap-4 overflow-auto">
                 <span className="text-lg font-semibold">Stars</span>
                 {data.credits.cast.slice(0, 5).map((cast) => (
                   <li className="cursor-pointer text-blue-500 hover:text-blue-400">
