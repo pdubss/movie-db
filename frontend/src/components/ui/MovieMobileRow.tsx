@@ -20,8 +20,8 @@ export default function MovieMobileRow({ query }: MovieMobileRow) {
     console.log(query.data);
   }
   return (
-    <div className="overflow-x-hidden md:hidden" ref={mobileEmblaRef}>
-      <div className="flex h-full md:hidden">
+    <div className="overflow-x-hidden" ref={mobileEmblaRef}>
+      <div className="flex h-full">
         {query?.data &&
           query.data?.movies.results.map((movie) => (
             <MobileSlide

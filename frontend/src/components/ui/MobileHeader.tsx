@@ -5,7 +5,7 @@ import SlideUpMenu from "./SlideUpMenu";
 function MobileHeader() {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <div className="flex h-10 items-center justify-between bg-[#282828] px-4">
+    <div className="flex h-10 shrink-0 items-center justify-between bg-[#282828] px-4">
       <button
         onClick={() => setShowMenu((value) => !value)}
         className="cursor-pointer"
