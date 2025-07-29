@@ -213,9 +213,9 @@ function RouteComponent() {
             </ul>
           </div>
           <hr />
-          <div className="flex items-center gap-4 overflow-x-auto">
+          <div className="flex items-center gap-4">
             <span className="text-lg font-semibold">Stars</span>
-            <ul className="flex gap-4">
+            <ul className="flex gap-4 overflow-x-auto">
               {data.details.aggregate_credits.cast.slice(0, 5).map((cast) => (
                 <Link
                   className="text-blue-500 hover:text-blue-400"

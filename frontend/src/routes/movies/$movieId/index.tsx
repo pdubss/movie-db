@@ -239,7 +239,7 @@ function RouteComponent() {
             <hr />
             <div className="flex items-center gap-4">
               <span className="text-lg font-semibold">Writers</span>
-              <ul className="flex gap-4">
+              <ul className="flex gap-4 overflow-x-auto">
                 {data?.writers.map((writer) => (
                   <li className="cursor-pointer text-blue-500 hover:text-blue-400">
                     <Link
@@ -254,19 +254,21 @@ function RouteComponent() {
             </div>
             <hr />
             {data && (
-              <ul className="flex items-center gap-4 overflow-auto">
+              <div className="flex items-center gap-4">
                 <span className="text-lg font-semibold">Stars</span>
-                {data.credits.cast.slice(0, 5).map((cast) => (
-                  <li className="cursor-pointer text-blue-500 hover:text-blue-400">
-                    <Link
-                      to="/people/$personId"
-                      params={{ personId: cast.id.toString() }}
-                    >
-                      {cast.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+                <ul className="flex gap-4 overflow-auto">
+                  {data.credits.cast.slice(0, 5).map((cast) => (
+                    <li className="cursor-pointer text-blue-500 hover:text-blue-400">
+                      <Link
+                        to="/people/$personId"
+                        params={{ personId: cast.id.toString() }}
+                      >
+                        {cast.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>
