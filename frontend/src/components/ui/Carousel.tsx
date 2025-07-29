@@ -51,9 +51,9 @@ const Carousel = ({ data }: CarouselProps) => {
       <div className="overflow-x-hidden md:hidden" ref={mobileEmblaRef}>
         <div className="flex h-full md:hidden">
           {data &&
-            data.map((movie, index) => (
+            data.map((movie) => (
               <MobileSlide
-                key={index}
+                key={crypto.randomUUID()}
                 poster_path={movie.poster_path}
                 id={movie.id}
               />

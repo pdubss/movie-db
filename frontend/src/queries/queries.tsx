@@ -39,7 +39,7 @@ interface VideoResponse {
   results: Video[];
 }
 
-interface MovieResponse {
+export interface MovieResponse {
   page: number;
   results: Movie[];
   total_pages: number;

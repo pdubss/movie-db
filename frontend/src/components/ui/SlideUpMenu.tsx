@@ -17,6 +17,9 @@ function SlideUpMenu({ isOpen, onClose }: SlideUpMenuProps) {
           transition={{ type: "spring", damping: 20, stiffness: 200 }}
           className="fixed right-0 bottom-0 left-0 z-50 flex h-1/2 w-full flex-col items-center justify-around bg-black"
         >
+          <Link className="font-semibold" to="/">
+            HOME
+          </Link>
           <Link className="font-semibold" to="/movies">
             MOVIES
           </Link>
