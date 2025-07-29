@@ -207,7 +207,7 @@ function RouteComponent() {
           </div>
           <div className="mt-4 flex flex-col gap-4">
             {" "}
-            <ul className="flex gap-2">
+            <ul className="flex items-start gap-2 overflow-x-auto">
               {data?.movie.genres.map((genre, index) => (
                 <Link
                   key={index}
@@ -256,7 +256,7 @@ function RouteComponent() {
             {data && (
               <div className="flex items-center gap-4">
                 <span className="text-lg font-semibold">Stars</span>
-                <ul className="flex gap-4 overflow-auto">
+                <ul className="flex gap-4 overflow-auto pb-1">
                   {data.credits.cast.slice(0, 5).map((cast) => (
                     <li className="cursor-pointer text-blue-500 hover:text-blue-400">
                       <Link

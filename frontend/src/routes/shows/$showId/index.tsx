@@ -180,7 +180,7 @@ function RouteComponent() {
               </div>
             </div>
           </div>
-          <ul className="flex gap-2">
+          <ul className="flex items-start gap-2 overflow-x-auto">
             {data.details.genres.map((genre) => (
               <li className="rounded-xl border border-white px-2 py-0.5 hover:bg-[#282828]">
                 <Link
@@ -215,7 +215,7 @@ function RouteComponent() {
           <hr />
           <div className="flex items-center gap-4">
             <span className="text-lg font-semibold">Stars</span>
-            <ul className="flex gap-4 overflow-x-auto">
+            <ul className="flex gap-4 overflow-x-auto pb-1">
               {data.details.aggregate_credits.cast.slice(0, 5).map((cast) => (
                 <Link
                   className="text-blue-500 hover:text-blue-400"
@@ -230,7 +230,7 @@ function RouteComponent() {
           <hr />
           <div className="flex items-center gap-4">
             <span className="text-lg font-semibold">Writers</span>
-            <ul className="flex gap-4 overflow-x-auto">
+            <ul className="flex gap-4 overflow-x-auto pb-1">
               {data.details.aggregate_credits.crew
                 .filter((crew) => crew.known_for_department === "Writing")
                 .slice(0, 4)

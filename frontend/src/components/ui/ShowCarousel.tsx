@@ -17,6 +17,7 @@ export default function ShowCarousel({ shows }: ShowCarousel) {
         {shows &&
           shows.map((show) => (
             <MobileSlide
+              type="show"
               key={crypto.randomUUID()}
               poster_path={show.poster_path}
               id={show.id}

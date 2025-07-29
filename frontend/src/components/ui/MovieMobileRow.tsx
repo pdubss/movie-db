@@ -25,6 +25,7 @@ export default function MovieMobileRow({ query }: MovieMobileRow) {
         {query?.data &&
           query.data?.movies.results.map((movie) => (
             <MobileSlide
+              type="movie"
               key={crypto.randomUUID()}
               poster_path={movie.poster_path}
               id={movie.id}

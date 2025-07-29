@@ -1,13 +1,13 @@
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback } from "react";
-import type { Movie } from "@/queries/queries";
+import type { Movie, TvShow } from "@/queries/queries";
 import Slide from "./Slide";
 import MobileSlide from "./MobileSlide";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface CarouselProps {
-  data: Movie[] | undefined;
+  data: Movie[] | TvShow[] | undefined;
 }
 
 const Carousel = ({ data }: CarouselProps) => {
@@ -41,6 +41,7 @@ const Carousel = ({ data }: CarouselProps) => {
             {data &&
               data.map((movie) => (
                 <MobileSlide
+                  type="movie"
                   key={crypto.randomUUID()}
                   poster_path={movie.poster_path}
                   id={movie.id}
@@ -55,10 +56,10 @@ const Carousel = ({ data }: CarouselProps) => {
               data.map((movie, index) => (
                 <Slide
                   key={index}
-                  Title={movie.title}
+                  Title={"title" in movie ? movie.title : movie.name}
                   Poster={movie.poster_path}
-                  Background={movie.backdrop_path}
-                  Subtext={movie.overview}
+                  Background={"title" in movie ? movie.backdrop_path : ""}
+                  Subtext={"title" in movie ? movie.overview : ""}
                   id={movie.id}
                 />
               ))}
