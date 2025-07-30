@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/supabaseClient";
+import { ToastContainer, toast } from "react-toastify";
 
 export const Route = createFileRoute("/login/")({
   component: RouteComponent,
@@ -12,18 +14,30 @@ interface Inputs {
 }
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (form) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Log in successful");
+      navigate({ to: "/" });
+    }
   };
 
   return (
     <div className="flex h-full w-full items-center justify-center">
+      <ToastContainer position="top-center" />
       <div className="flex h-[25rem] w-[25rem] flex-col gap-6 border p-4">
         <h1 className="text-center text-2xl font-semibold">Login</h1>
         <form

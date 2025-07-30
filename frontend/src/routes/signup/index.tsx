@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/supabaseClient";
+import { ToastContainer, toast } from "react-toastify";
 
 export const Route = createFileRoute("/signup/")({
   component: RouteComponent,
@@ -13,6 +14,7 @@ interface Inputs {
 }
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,15 +22,21 @@ function RouteComponent() {
   } = useForm<Inputs>();
 
   const submitHandler: SubmitHandler<Inputs> = async (form) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
     });
-    console.log(data, error);
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Sign up successful");
+      navigate({ to: "/" });
+    }
   };
 
   return (
     <div>
+      <ToastContainer position="top-center" />
       <form onSubmit={handleSubmit(submitHandler)}>
         <label>
           Email:
