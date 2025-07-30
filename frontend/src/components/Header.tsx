@@ -130,6 +130,9 @@ const Header = () => {
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
       </Link>
+      <Link className="px-2 py-1" to="/signup">
+        SIGNUP
+      </Link>
       <Link
         to="/login"
         className="cursor-pointer px-2 py-1 hover:text-gray-300"

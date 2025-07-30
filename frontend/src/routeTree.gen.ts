@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WatchlistIndexRouteImport } from './routes/watchlist/index'
+import { Route as SignupIndexRouteImport } from './routes/signup/index'
 import { Route as ShowsIndexRouteImport } from './routes/shows/index'
 import { Route as MoviesIndexRouteImport } from './routes/movies/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
@@ -38,6 +39,11 @@ const IndexRoute = IndexRouteImport.update({
 const WatchlistIndexRoute = WatchlistIndexRouteImport.update({
   id: '/watchlist/',
   path: '/watchlist/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupIndexRoute = SignupIndexRouteImport.update({
+  id: '/signup/',
+  path: '/signup/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShowsIndexRoute = ShowsIndexRouteImport.update({
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginIndexRoute
   '/movies': typeof MoviesIndexRoute
   '/shows': typeof ShowsIndexRoute
+  '/signup': typeof SignupIndexRoute
   '/watchlist': typeof WatchlistIndexRoute
   '/movies/$movieId/photos': typeof MoviesMovieIdPhotosRoute
   '/movies/$movieId/videos': typeof MoviesMovieIdVideosRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginIndexRoute
   '/movies': typeof MoviesIndexRoute
   '/shows': typeof ShowsIndexRoute
+  '/signup': typeof SignupIndexRoute
   '/watchlist': typeof WatchlistIndexRoute
   '/movies/$movieId/photos': typeof MoviesMovieIdPhotosRoute
   '/movies/$movieId/videos': typeof MoviesMovieIdVideosRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/login/': typeof LoginIndexRoute
   '/movies/': typeof MoviesIndexRoute
   '/shows/': typeof ShowsIndexRoute
+  '/signup/': typeof SignupIndexRoute
   '/watchlist/': typeof WatchlistIndexRoute
   '/movies/$movieId/photos': typeof MoviesMovieIdPhotosRoute
   '/movies/$movieId/videos': typeof MoviesMovieIdVideosRoute
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/movies'
     | '/shows'
+    | '/signup'
     | '/watchlist'
     | '/movies/$movieId/photos'
     | '/movies/$movieId/videos'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/movies'
     | '/shows'
+    | '/signup'
     | '/watchlist'
     | '/movies/$movieId/photos'
     | '/movies/$movieId/videos'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/login/'
     | '/movies/'
     | '/shows/'
+    | '/signup/'
     | '/watchlist/'
     | '/movies/$movieId/photos'
     | '/movies/$movieId/videos'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   LoginIndexRoute: typeof LoginIndexRoute
   MoviesIndexRoute: typeof MoviesIndexRoute
   ShowsIndexRoute: typeof ShowsIndexRoute
+  SignupIndexRoute: typeof SignupIndexRoute
   WatchlistIndexRoute: typeof WatchlistIndexRoute
   MoviesMovieIdPhotosRoute: typeof MoviesMovieIdPhotosRoute
   MoviesMovieIdVideosRoute: typeof MoviesMovieIdVideosRoute
@@ -246,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/watchlist'
       fullPath: '/watchlist'
       preLoaderRoute: typeof WatchlistIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup/': {
+      id: '/signup/'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shows/': {
@@ -342,6 +362,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginIndexRoute: LoginIndexRoute,
   MoviesIndexRoute: MoviesIndexRoute,
   ShowsIndexRoute: ShowsIndexRoute,
+  SignupIndexRoute: SignupIndexRoute,
   WatchlistIndexRoute: WatchlistIndexRoute,
   MoviesMovieIdPhotosRoute: MoviesMovieIdPhotosRoute,
   MoviesMovieIdVideosRoute: MoviesMovieIdVideosRoute,
