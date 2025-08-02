@@ -1,5 +1,5 @@
-import MovieMobileRow from "@/components/ui/MovieMobileRow";
 import { IMAGE_BASE_URL } from "@/components/ui/Slide";
+import Spinner from "@/components/ui/Spinner";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 import { getMovieById, getMoviesByGenre } from "@/queries/queries";
@@ -15,7 +15,7 @@ function RouteComponent() {
   const isMobile = useMediaQuery("(max-width:768px)");
   const { genreId } = Route.useParams();
   const [page, setPage] = useState(1);
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["movies", genreId, page],
     queryFn: () => getMoviesByGenre(genreId, page),
   });
@@ -42,30 +42,44 @@ function RouteComponent() {
     setPage((page) => page + 1);
   }
 
+  if (!data && isLoading) return <Spinner />;
+
   return (
     <div className="w-full text-white">
-      {isMobile ? (
+      {isMobile && data && movieDetailQueries ? (
         <div className="flex w-full flex-col gap-6">
           <h1 className="text-center text-2xl font-semibold">
             {data?.genre?.name} Movies
           </h1>
           <ul className="grid grid-cols-1 place-items-center gap-10">
-            {movieDetailQueries.map((query) => (
-              <li className="flex flex-col gap-2">
-                <img
-                  className="rounded-lg"
-                  src={`${IMAGE_BASE_URL}w500${query.data?.movie.poster_path}`}
-                />
-                <div className="flex flex-col gap-2">
-                  {" "}
-                  <span className="text-lg font-semibold">
-                    {query.data?.movie.title}
-                  </span>
-                  <div className="flex gap-4">
-                    <span>{query.data?.movie.release_date.split("-")[0]}</span>
-                    <span>{query.data?.movie.runtime}m</span>
+            {movieDetailQueries.map((query, index) => (
+              <li key={index}>
+                <Link
+                  className="flex flex-col gap-2"
+                  to="/movies/$movieId"
+                  params={{
+                    movieId: query.data?.movie.id
+                      ? query.data.movie.id.toString()
+                      : "",
+                  }}
+                >
+                  <img
+                    className="rounded-lg"
+                    src={`${IMAGE_BASE_URL}w500${query.data?.movie.poster_path}`}
+                  />
+                  <div className="flex flex-col gap-2">
+                    {" "}
+                    <span className="text-lg font-semibold">
+                      {query.data?.movie.title}
+                    </span>
+                    <div className="flex gap-4">
+                      <span>
+                        {query.data?.movie.release_date.split("-")[0]}
+                      </span>
+                      <span>{query.data?.movie.runtime}m</span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>
