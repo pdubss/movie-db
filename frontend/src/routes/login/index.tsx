@@ -38,10 +38,10 @@ function RouteComponent() {
   return (
     <div className="flex h-full w-full items-center justify-center">
       <ToastContainer position="top-center" />
-      <div className="flex h-[25rem] w-[25rem] flex-col gap-6 border p-4">
+      <div className="flex h-[25rem] w-[25rem] flex-col gap-4 border p-4">
         <h1 className="text-center text-2xl font-semibold">Login</h1>
         <form
-          className="flex h-full flex-col items-center gap-6"
+          className="flex h-full flex-col items-center justify-around"
           onSubmit={handleSubmit(onSubmit)}
         >
           <label className="text-lg font-semibold">

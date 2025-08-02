@@ -35,23 +35,36 @@ function RouteComponent() {
   };
 
   return (
-    <div>
+    <div className="flex h-full w-full items-center justify-center">
       <ToastContainer position="top-center" />
-      <form onSubmit={handleSubmit(submitHandler)}>
-        <label>
-          Email:
-          <Input {...register("email")} />
-        </label>
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-        <label>
-          Password:
-          <Input {...register("password")} />
-        </label>
-        {errors.password && (
-          <p className="text-red-500">{errors.password.message}</p>
-        )}
-        <button type="submit">Submit</button>
-      </form>
+      <div className="flex h-[25rem] w-[25rem] flex-col border p-4">
+        <h1 className="text-center text-2xl font-semibold">Sign Up</h1>
+        <form
+          className="flex h-full flex-col items-center justify-around"
+          onSubmit={handleSubmit(submitHandler)}
+        >
+          <label className="text-lg font-semibold">
+            Email:
+            <Input {...register("email")} />
+          </label>
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
+          <label className="text-lg font-semibold">
+            Password:
+            <Input {...register("password")} />
+          </label>
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
+          <button
+            className="w-[5rem] cursor-pointer rounded-lg border p-1 text-lg font-semibold"
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
