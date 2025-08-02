@@ -11,7 +11,7 @@ interface CarouselProps {
 }
 
 const Carousel = ({ data }: CarouselProps) => {
-  const isMobile = useMediaQuery("(max-width:1280px)");
+  const isMobile = useMediaQuery("(max-width:768px)");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
     [Autoplay()],
@@ -50,8 +50,8 @@ const Carousel = ({ data }: CarouselProps) => {
           </div>
         </div>
       ) : (
-        <div className="hidden overflow-x-hidden md:block" ref={emblaRef}>
-          <div className="hidden h-[600px] md:flex">
+        <div className="overflow-x-hidden" ref={emblaRef}>
+          <div className="flex h-[600px]">
             {data &&
               data.map((movie, index) => (
                 <Slide
