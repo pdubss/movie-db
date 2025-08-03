@@ -1,7 +1,8 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import Logo from "../assets/tmdb_logo.svg";
+import { queryClient } from "@/queryClient";
 
 import Header from "@/components/Header";
 import MobileHeader from "@/components/ui/MobileHeader";
@@ -9,7 +10,6 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 
 export const Route = createRootRoute({
   component: () => {
-    const queryClient = new QueryClient();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const isMobile = useMediaQuery("(max-width:1280px)");
     return (
