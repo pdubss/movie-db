@@ -1,4 +1,5 @@
 import { IMAGE_BASE_URL } from "@/components/ui/Slide";
+import Spinner from "@/components/ui/Spinner";
 import { getMovieById } from "@/queries/queries";
 import { queryClient } from "@/queryClient";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -14,18 +15,19 @@ export const Route = createFileRoute("/movies/$movieId/")({
       }),
     };
   },
+  pendingComponent: () => <Spinner />,
 });
 
 function RouteComponent() {
   const { movieId } = Route.useParams();
-  const data = Route.useLoaderData();
+  const { details } = Route.useLoaderData();
   const [isWatchlist, setIsWatchlist] = useState(false);
 
   return (
     <div className="flex h-full w-full flex-col gap-2 py-2 text-white">
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
-          <h1 className="text-5xl">{data.details.movie.title}</h1>
+          <h1 className="text-5xl">{details.movie.title}</h1>
 
           <div className="flex gap-4">
             <div className="flex flex-col">
@@ -47,11 +49,9 @@ function RouteComponent() {
                 <div className="flex flex-col">
                   {" "}
                   <span>
-                    {data.details.movie.vote_average.toString().slice(0, 3)}/10
+                    {details.movie.vote_average.toString().slice(0, 3)}/10
                   </span>
-                  <span className="text-xs">
-                    {data.details.movie.vote_count}
-                  </span>
+                  <span className="text-xs">{details.movie.vote_count}</span>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@ function RouteComponent() {
               <span className="font-semibold">POPULARITY</span>
               <div className="flex justify-center gap-1">
                 <span className="text-center">
-                  {data.details.movie.popularity.toString().split(".")[0]}
+                  {details.movie.popularity.toString().split(".")[0]}
                 </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -100,8 +100,8 @@ function RouteComponent() {
           </div>
         </div>
         <div className="flex gap-3">
-          <span>{data.details.movie.release_date.split("-")[0]}</span>
-          <span>{data.details.movie.runtime}m</span>
+          <span>{details.movie.release_date.split("-")[0]}</span>
+          <span>{details.movie.runtime}m</span>
         </div>
         <div className="flex flex-col lg:flex-row lg:justify-between">
           <div className="relative">
@@ -141,13 +141,13 @@ function RouteComponent() {
             </button>
             <img
               className="h-[26r.25em] max-w-70 shrink-0 rounded-md"
-              src={`${IMAGE_BASE_URL}w500${data.details.movie.poster_path}`}
+              src={`${IMAGE_BASE_URL}w500${details.movie.poster_path}`}
             />
           </div>
-          {data.details.trailerKey ? (
+          {details.trailerKey ? (
             <iframe
-              src={`https://www.youtube.com/embed/${data.details.trailerKey}`}
-              title={`${data.details.movie.title} movie trailer`}
+              src={`https://www.youtube.com/embed/${details.trailerKey}`}
+              title={`${details.movie.title} movie trailer`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               loading="lazy"
@@ -178,7 +178,7 @@ function RouteComponent() {
                   />
                 </svg>
 
-                <span>{data.details.videos.length} Videos </span>
+                <span>{details.videos.length} Videos </span>
               </Link>
             </div>
             <div className="h-[13rem] w-[13rem] cursor-pointer rounded-md bg-[#121212] hover:bg-[#282828]">
@@ -202,7 +202,7 @@ function RouteComponent() {
                   />
                 </svg>
 
-                <span>{data.details.images.length} photos</span>
+                <span>{details.images.length} photos</span>
               </Link>
             </div>
           </div>
@@ -210,7 +210,7 @@ function RouteComponent() {
         <div className="mt-4 flex flex-col gap-4">
           {" "}
           <ul className="flex items-start gap-2 overflow-x-auto">
-            {data.details.movie.genres.map((genre, index) => (
+            {details.movie.genres.map((genre, index) => (
               <Link
                 key={index}
                 to="/movies/genre/$genreId"
@@ -222,19 +222,19 @@ function RouteComponent() {
             ))}
           </ul>
           <div>
-            <p className="text-lg">{data.details.movie.overview}</p>
+            <p className="text-lg">{details.movie.overview}</p>
           </div>
           <hr />
           <div className="flex items-center gap-4">
             <span className="text-lg font-semibold">Director</span>
 
-            {data.details.director && (
+            {details.director && (
               <Link
                 className="text-blue-500 hover:text-blue-400"
                 to="/people/$personId"
-                params={{ personId: data.details.director.id.toString() }}
+                params={{ personId: details.director.id.toString() }}
               >
-                {data.details.director.name}
+                {details.director.name}
               </Link>
             )}
           </div>
@@ -242,7 +242,7 @@ function RouteComponent() {
           <div className="flex items-center gap-4">
             <span className="text-lg font-semibold">Writers</span>
             <ul className="flex gap-4 overflow-x-auto">
-              {data.details.writers.map((writer) => (
+              {details.writers.map((writer) => (
                 <li
                   key={writer.id}
                   className="cursor-pointer text-blue-500 hover:text-blue-400"
@@ -258,11 +258,11 @@ function RouteComponent() {
             </ul>
           </div>
           <hr />
-          {data && (
+          {details && (
             <div className="flex items-center gap-4">
               <span className="text-lg font-semibold">Stars</span>
               <ul className="flex gap-4 overflow-auto pb-1">
-                {data.details.credits.cast.slice(0, 5).map((cast) => (
+                {details.credits.cast.slice(0, 5).map((cast) => (
                   <li
                     key={cast.id}
                     className="cursor-pointer text-blue-500 hover:text-blue-400"
