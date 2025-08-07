@@ -17,8 +17,10 @@ import { Route as ShowsIndexRouteImport } from './routes/shows/index'
 import { Route as MoviesIndexRouteImport } from './routes/movies/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as PeoplePersonIdRouteImport } from './routes/people/$personId'
+import { Route as UserUseridIndexRouteImport } from './routes/user/$userid/index'
 import { Route as ShowsShowIdIndexRouteImport } from './routes/shows/$showId/index'
 import { Route as MoviesMovieIdIndexRouteImport } from './routes/movies/$movieId/index'
+import { Route as UserUseridGenresRouteImport } from './routes/user/$userid/genres'
 import { Route as ShowsGenreGenreIdRouteImport } from './routes/shows/genre/$genreId'
 import { Route as ShowsShowIdVideosRouteImport } from './routes/shows/$showId/videos'
 import { Route as ShowsShowIdPhotosRouteImport } from './routes/shows/$showId/photos'
@@ -66,6 +68,11 @@ const PeoplePersonIdRoute = PeoplePersonIdRouteImport.update({
   path: '/people/$personId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserUseridIndexRoute = UserUseridIndexRouteImport.update({
+  id: '/user/$userid/',
+  path: '/user/$userid/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShowsShowIdIndexRoute = ShowsShowIdIndexRouteImport.update({
   id: '/shows/$showId/',
   path: '/shows/$showId/',
@@ -74,6 +81,11 @@ const ShowsShowIdIndexRoute = ShowsShowIdIndexRouteImport.update({
 const MoviesMovieIdIndexRoute = MoviesMovieIdIndexRouteImport.update({
   id: '/movies/$movieId/',
   path: '/movies/$movieId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserUseridGenresRoute = UserUseridGenresRouteImport.update({
+  id: '/user/$userid/genres',
+  path: '/user/$userid/genres',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShowsGenreGenreIdRoute = ShowsGenreGenreIdRouteImport.update({
@@ -122,8 +134,10 @@ export interface FileRoutesByFullPath {
   '/shows/$showId/photos': typeof ShowsShowIdPhotosRoute
   '/shows/$showId/videos': typeof ShowsShowIdVideosRoute
   '/shows/genre/$genreId': typeof ShowsGenreGenreIdRoute
+  '/user/$userid/genres': typeof UserUseridGenresRoute
   '/movies/$movieId': typeof MoviesMovieIdIndexRoute
   '/shows/$showId': typeof ShowsShowIdIndexRoute
+  '/user/$userid': typeof UserUseridIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -140,8 +154,10 @@ export interface FileRoutesByTo {
   '/shows/$showId/photos': typeof ShowsShowIdPhotosRoute
   '/shows/$showId/videos': typeof ShowsShowIdVideosRoute
   '/shows/genre/$genreId': typeof ShowsGenreGenreIdRoute
+  '/user/$userid/genres': typeof UserUseridGenresRoute
   '/movies/$movieId': typeof MoviesMovieIdIndexRoute
   '/shows/$showId': typeof ShowsShowIdIndexRoute
+  '/user/$userid': typeof UserUseridIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -159,8 +175,10 @@ export interface FileRoutesById {
   '/shows/$showId/photos': typeof ShowsShowIdPhotosRoute
   '/shows/$showId/videos': typeof ShowsShowIdVideosRoute
   '/shows/genre/$genreId': typeof ShowsGenreGenreIdRoute
+  '/user/$userid/genres': typeof UserUseridGenresRoute
   '/movies/$movieId/': typeof MoviesMovieIdIndexRoute
   '/shows/$showId/': typeof ShowsShowIdIndexRoute
+  '/user/$userid/': typeof UserUseridIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -179,8 +197,10 @@ export interface FileRouteTypes {
     | '/shows/$showId/photos'
     | '/shows/$showId/videos'
     | '/shows/genre/$genreId'
+    | '/user/$userid/genres'
     | '/movies/$movieId'
     | '/shows/$showId'
+    | '/user/$userid'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -197,8 +217,10 @@ export interface FileRouteTypes {
     | '/shows/$showId/photos'
     | '/shows/$showId/videos'
     | '/shows/genre/$genreId'
+    | '/user/$userid/genres'
     | '/movies/$movieId'
     | '/shows/$showId'
+    | '/user/$userid'
   id:
     | '__root__'
     | '/'
@@ -215,8 +237,10 @@ export interface FileRouteTypes {
     | '/shows/$showId/photos'
     | '/shows/$showId/videos'
     | '/shows/genre/$genreId'
+    | '/user/$userid/genres'
     | '/movies/$movieId/'
     | '/shows/$showId/'
+    | '/user/$userid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -234,8 +258,10 @@ export interface RootRouteChildren {
   ShowsShowIdPhotosRoute: typeof ShowsShowIdPhotosRoute
   ShowsShowIdVideosRoute: typeof ShowsShowIdVideosRoute
   ShowsGenreGenreIdRoute: typeof ShowsGenreGenreIdRoute
+  UserUseridGenresRoute: typeof UserUseridGenresRoute
   MoviesMovieIdIndexRoute: typeof MoviesMovieIdIndexRoute
   ShowsShowIdIndexRoute: typeof ShowsShowIdIndexRoute
+  UserUseridIndexRoute: typeof UserUseridIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -296,6 +322,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PeoplePersonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/$userid/': {
+      id: '/user/$userid/'
+      path: '/user/$userid'
+      fullPath: '/user/$userid'
+      preLoaderRoute: typeof UserUseridIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shows/$showId/': {
       id: '/shows/$showId/'
       path: '/shows/$showId'
@@ -308,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/movies/$movieId'
       fullPath: '/movies/$movieId'
       preLoaderRoute: typeof MoviesMovieIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/$userid/genres': {
+      id: '/user/$userid/genres'
+      path: '/user/$userid/genres'
+      fullPath: '/user/$userid/genres'
+      preLoaderRoute: typeof UserUseridGenresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shows/genre/$genreId': {
@@ -370,8 +410,10 @@ const rootRouteChildren: RootRouteChildren = {
   ShowsShowIdPhotosRoute: ShowsShowIdPhotosRoute,
   ShowsShowIdVideosRoute: ShowsShowIdVideosRoute,
   ShowsGenreGenreIdRoute: ShowsGenreGenreIdRoute,
+  UserUseridGenresRoute: UserUseridGenresRoute,
   MoviesMovieIdIndexRoute: MoviesMovieIdIndexRoute,
   ShowsShowIdIndexRoute: ShowsShowIdIndexRoute,
+  UserUseridIndexRoute: UserUseridIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
