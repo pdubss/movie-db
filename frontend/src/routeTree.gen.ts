@@ -20,6 +20,7 @@ import { Route as PeoplePersonIdRouteImport } from './routes/people/$personId'
 import { Route as UserUseridIndexRouteImport } from './routes/user/$userid/index'
 import { Route as ShowsShowIdIndexRouteImport } from './routes/shows/$showId/index'
 import { Route as MoviesMovieIdIndexRouteImport } from './routes/movies/$movieId/index'
+import { Route as UserUseridRatingsRouteImport } from './routes/user/$userid/ratings'
 import { Route as UserUseridGenresRouteImport } from './routes/user/$userid/genres'
 import { Route as ShowsGenreGenreIdRouteImport } from './routes/shows/genre/$genreId'
 import { Route as ShowsShowIdVideosRouteImport } from './routes/shows/$showId/videos'
@@ -83,6 +84,11 @@ const MoviesMovieIdIndexRoute = MoviesMovieIdIndexRouteImport.update({
   path: '/movies/$movieId/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserUseridRatingsRoute = UserUseridRatingsRouteImport.update({
+  id: '/user/$userid/ratings',
+  path: '/user/$userid/ratings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UserUseridGenresRoute = UserUseridGenresRouteImport.update({
   id: '/user/$userid/genres',
   path: '/user/$userid/genres',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/shows/$showId/videos': typeof ShowsShowIdVideosRoute
   '/shows/genre/$genreId': typeof ShowsGenreGenreIdRoute
   '/user/$userid/genres': typeof UserUseridGenresRoute
+  '/user/$userid/ratings': typeof UserUseridRatingsRoute
   '/movies/$movieId': typeof MoviesMovieIdIndexRoute
   '/shows/$showId': typeof ShowsShowIdIndexRoute
   '/user/$userid': typeof UserUseridIndexRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/shows/$showId/videos': typeof ShowsShowIdVideosRoute
   '/shows/genre/$genreId': typeof ShowsGenreGenreIdRoute
   '/user/$userid/genres': typeof UserUseridGenresRoute
+  '/user/$userid/ratings': typeof UserUseridRatingsRoute
   '/movies/$movieId': typeof MoviesMovieIdIndexRoute
   '/shows/$showId': typeof ShowsShowIdIndexRoute
   '/user/$userid': typeof UserUseridIndexRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/shows/$showId/videos': typeof ShowsShowIdVideosRoute
   '/shows/genre/$genreId': typeof ShowsGenreGenreIdRoute
   '/user/$userid/genres': typeof UserUseridGenresRoute
+  '/user/$userid/ratings': typeof UserUseridRatingsRoute
   '/movies/$movieId/': typeof MoviesMovieIdIndexRoute
   '/shows/$showId/': typeof ShowsShowIdIndexRoute
   '/user/$userid/': typeof UserUseridIndexRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/shows/$showId/videos'
     | '/shows/genre/$genreId'
     | '/user/$userid/genres'
+    | '/user/$userid/ratings'
     | '/movies/$movieId'
     | '/shows/$showId'
     | '/user/$userid'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/shows/$showId/videos'
     | '/shows/genre/$genreId'
     | '/user/$userid/genres'
+    | '/user/$userid/ratings'
     | '/movies/$movieId'
     | '/shows/$showId'
     | '/user/$userid'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/shows/$showId/videos'
     | '/shows/genre/$genreId'
     | '/user/$userid/genres'
+    | '/user/$userid/ratings'
     | '/movies/$movieId/'
     | '/shows/$showId/'
     | '/user/$userid/'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   ShowsShowIdVideosRoute: typeof ShowsShowIdVideosRoute
   ShowsGenreGenreIdRoute: typeof ShowsGenreGenreIdRoute
   UserUseridGenresRoute: typeof UserUseridGenresRoute
+  UserUseridRatingsRoute: typeof UserUseridRatingsRoute
   MoviesMovieIdIndexRoute: typeof MoviesMovieIdIndexRoute
   ShowsShowIdIndexRoute: typeof ShowsShowIdIndexRoute
   UserUseridIndexRoute: typeof UserUseridIndexRoute
@@ -343,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoviesMovieIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/$userid/ratings': {
+      id: '/user/$userid/ratings'
+      path: '/user/$userid/ratings'
+      fullPath: '/user/$userid/ratings'
+      preLoaderRoute: typeof UserUseridRatingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/user/$userid/genres': {
       id: '/user/$userid/genres'
       path: '/user/$userid/genres'
@@ -411,6 +431,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShowsShowIdVideosRoute: ShowsShowIdVideosRoute,
   ShowsGenreGenreIdRoute: ShowsGenreGenreIdRoute,
   UserUseridGenresRoute: UserUseridGenresRoute,
+  UserUseridRatingsRoute: UserUseridRatingsRoute,
   MoviesMovieIdIndexRoute: MoviesMovieIdIndexRoute,
   ShowsShowIdIndexRoute: ShowsShowIdIndexRoute,
   UserUseridIndexRoute: UserUseridIndexRoute,

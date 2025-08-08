@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchResults from "@/queries/queries";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useDebounce } from "use-debounce";
 import { Input } from "./ui/input";
@@ -11,12 +11,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import type { CategoryType, Movie, TvShow, Person } from "@/queries/queries";
 import MovieCard from "./ui/MovieCard";
 import ShowCard from "./ui/ShowCard";
 import PersonCard from "./ui/PersonCard";
+import useAuthStatus from "@/hooks/useAuthStatus";
+import { supabase } from "@/supabaseClient";
 
 const Header = () => {
+  const { isLoggedIn } = useAuthStatus();
+  const [currentId, setCurrentId] = useState<string | undefined>(undefined);
+  // const [name, setName] = useState("");
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
   const [category, setCategory] = useState<CategoryType>("movie");
@@ -26,7 +38,23 @@ const Header = () => {
     enabled: query.length > 3,
   });
 
-  console.log(data);
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        console.error(error.message);
+        return null;
+      }
+
+      setCurrentId(user?.id);
+    };
+
+    getUserInfo();
+  }, [isLoggedIn]);
 
   return (
     <nav className="flex h-14 items-center justify-center gap-5 bg-[rgb(17,17,17)] p-4 font-semibold text-white">
@@ -130,15 +158,52 @@ const Header = () => {
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
       </Link>
-      <Link className="px-2 py-1" to="/signup">
-        SIGNUP
-      </Link>
-      <Link
-        to="/login"
-        className="cursor-pointer px-2 py-1 hover:text-gray-300"
-      >
-        LOGIN
-      </Link>
+      {isLoggedIn && currentId ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+            <span>Placeholder Name</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <Link to="/user/$userid" params={{ userid: currentId }}>
+                Account
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link to="/user/$userid/ratings" params={{ userid: currentId }}>
+                Your Ratings
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <>
+          <Link className="px-2 py-1" to="/signup">
+            SIGNUP
+          </Link>
+          <Link
+            to="/login"
+            className="cursor-pointer px-2 py-1 hover:text-gray-300"
+          >
+            LOGIN
+          </Link>
+        </>
+      )}
     </nav>
   );
 };
