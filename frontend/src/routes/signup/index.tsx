@@ -12,6 +12,7 @@ export const Route = createFileRoute("/signup/")({
 interface Inputs {
   email: string;
   password: string;
+  name: string;
 }
 
 function RouteComponent() {
@@ -23,15 +24,28 @@ function RouteComponent() {
   } = useForm<Inputs>();
 
   const submitHandler: SubmitHandler<Inputs> = async (form) => {
-    const { error, data } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-    });
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Please check your email for a verification link");
-      console.log(data);
+    try {
+      const { error, data } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+      });
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Please check your email for a verification link");
+        console.log(data);
+      }
+      if (!data.user) throw new Error("No user returned from signup");
+
+      if (data.user) {
+        const { error: profileError } = await supabase.from("profiles").insert({
+          user_id: data.user.id,
+          name: form.name,
+        });
+        if (profileError) throw profileError;
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -106,6 +120,20 @@ function RouteComponent() {
           {errors.password && (
             <p className="text-red-500">{errors.password.message}</p>
           )}
+
+          <label>
+            First Name
+            <Input
+              {...register("name", {
+                required: true,
+                minLength: {
+                  value: 1,
+                  message: "Name cannot be empty",
+                },
+              })}
+            />
+          </label>
+
           <button
             className="w-[5rem] cursor-pointer rounded-lg border p-1 text-lg font-semibold"
             type="submit"
