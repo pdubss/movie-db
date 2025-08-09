@@ -7,10 +7,10 @@ export const Route = createFileRoute("/user/$userid/")({
 });
 
 function RouteComponent() {
-  const { isLoading, user, isLoggedIn } = useAuthStatus();
+  const { isLoading, user } = useAuthStatus();
 
   if (isLoading) return <Spinner />;
-  if (!isLoggedIn) return <div>You must be logged in to accesss this page</div>;
+  if (!user) return <div>You must be logged in to accesss this page</div>;
 
   if (user) console.log(user);
   let joinDate;

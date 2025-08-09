@@ -4,29 +4,28 @@ import type { User } from "@supabase/supabase-js";
 
 function useAuthStatus() {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       const { data } = await supabase.auth.getSession();
 
-      if (data.session) {
-        setUser(data.session.user);
-      } else setUser(null);
+      setUser(data?.session?.user ?? null);
 
       setIsLoading(false);
     };
     checkLoginStatus();
 
-    const { data: listener } = supabase.auth.onAuthStateChange((session) => {
-      setIsLoggedIn(!!session);
-    });
-    return () => {
-      listener.subscription.unsubscribe();
-    };
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        console.log(event, "event");
+      },
+    );
+    return () => listener.subscription.unsubscribe();
   }, []);
-  return { isLoggedIn, user, isLoading };
+  return { user, isLoading };
 }
 
 export default useAuthStatus;

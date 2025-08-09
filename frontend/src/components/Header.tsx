@@ -25,10 +25,15 @@ import PersonCard from "./ui/PersonCard";
 import useAuthStatus from "@/hooks/useAuthStatus";
 import { supabase } from "@/supabaseClient";
 
+interface Profile {
+  id: string;
+  name: string;
+}
+
 const Header = () => {
-  const { isLoggedIn } = useAuthStatus();
-  const [currentId, setCurrentId] = useState<string | undefined>(undefined);
-  const [name, setName] = useState("");
+  const { user } = useAuthStatus();
+  const [profile, setProfile] = useState<Profile | null>(null);
+
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
   const [category, setCategory] = useState<CategoryType>("movie");
@@ -39,42 +44,38 @@ const Header = () => {
   });
 
   useEffect(() => {
+    if (!user) {
+      setProfile(null);
+      return;
+    }
     const getUserInfo = async () => {
       try {
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.getUser();
-
-        if (!user) throw new Error("no user");
-
-        const { data: profileData } = await supabase
+        const { data: profileData, error } = await supabase
           .from("profiles")
           .select("*")
           .eq("user_id", user.id)
           .single();
 
-        if (profileData) {
-          console.log(profileData);
-          setName(profileData.name);
-        }
+        console.log(profileData, "profile data");
 
         if (error) {
-          console.error(error.message);
-          return null;
+          console.error("Error loading profile", error);
+          return;
         }
 
-        setCurrentId(user?.id);
+        setProfile(profileData);
       } catch (error) {
         console.error(error);
       }
     };
 
     getUserInfo();
-  }, [isLoggedIn]);
+  }, [user]);
 
   const logoutHandler = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Logout error", error);
+    setProfile(null);
   };
 
   return (
@@ -179,7 +180,7 @@ const Header = () => {
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
       </Link>
-      {isLoggedIn && currentId ? (
+      {profile ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="flex gap-1">
             <svg
@@ -196,16 +197,16 @@ const Header = () => {
                 d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
               />
             </svg>
-            <span className="capitalize">{name}</span>
+            <span className="capitalize">{profile.name}</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <Link to="/user/$userid" params={{ userid: currentId }}>
+              <Link to="/user/$userid" params={{ userid: profile.id }}>
                 Account
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link to="/user/$userid/ratings" params={{ userid: currentId }}>
+              <Link to="/user/$userid/ratings" params={{ userid: profile.id }}>
                 Your Ratings
               </Link>
             </DropdownMenuItem>

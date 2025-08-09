@@ -6,9 +6,9 @@ export const Route = createFileRoute("/watchlist/")({
 });
 
 function RouteComponent() {
-  const { isLoggedIn } = useAuthStatus();
+  const { user } = useAuthStatus();
 
-  if (!isLoggedIn)
+  if (!user)
     return (
       <div className="flex h-full w-full flex-col items-center justify-center">
         <span>

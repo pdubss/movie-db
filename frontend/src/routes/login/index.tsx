@@ -30,7 +30,6 @@ function RouteComponent() {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Log in successful");
       navigate({ to: "/" });
     }
   };
