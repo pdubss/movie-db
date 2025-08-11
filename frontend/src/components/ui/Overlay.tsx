@@ -17,6 +17,7 @@ export default function Overlay({ children, setOpenOverlay }: OverlayProps) {
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         <motion.div
+          onClick={(e) => e.stopPropagation()}
           className="relative"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}

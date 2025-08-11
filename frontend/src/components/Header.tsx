@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchResults from "@/queries/queries";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useDebounce } from "use-debounce";
 import { Input } from "./ui/input";
@@ -25,14 +25,8 @@ import PersonCard from "./ui/PersonCard";
 import useAuthStatus from "@/hooks/useAuthStatus";
 import { supabase } from "@/supabaseClient";
 
-interface Profile {
-  id: string;
-  name: string;
-}
-
 const Header = () => {
-  const { user } = useAuthStatus();
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const { user, profile } = useAuthStatus();
 
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
@@ -43,39 +37,9 @@ const Header = () => {
     enabled: query.length > 3,
   });
 
-  useEffect(() => {
-    if (!user) {
-      setProfile(null);
-      return;
-    }
-    const getUserInfo = async () => {
-      try {
-        const { data: profileData, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("user_id", user.id)
-          .single();
-
-        console.log(profileData, "profile data");
-
-        if (error) {
-          console.error("Error loading profile", error);
-          return;
-        }
-
-        setProfile(profileData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getUserInfo();
-  }, [user]);
-
   const logoutHandler = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.error("Logout error", error);
-    setProfile(null);
   };
 
   return (
@@ -180,7 +144,7 @@ const Header = () => {
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
       </Link>
-      {profile ? (
+      {user && profile ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="flex gap-1">
             <svg
@@ -201,12 +165,15 @@ const Header = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <Link to="/user/$userid" params={{ userid: profile.id }}>
+              <Link to="/user/$userid" params={{ userid: profile.user_id }}>
                 Account
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link to="/user/$userid/ratings" params={{ userid: profile.id }}>
+              <Link
+                to="/user/$userid/ratings"
+                params={{ userid: profile.user_id }}
+              >
                 Your Ratings
               </Link>
             </DropdownMenuItem>
