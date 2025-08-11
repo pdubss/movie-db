@@ -32,7 +32,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
       <h1 className="text-3xl font-bold">Account</h1>
       <div className="flex gap-4">
         <div className="flex flex-col gap-4">
@@ -84,6 +84,9 @@ function RouteComponent() {
             Joined {joinDate?.toLocaleDateString()}
           </span>
         </div>
+      </div>
+      <div className="flex flex-col">
+        <h2 className="text-2xl">Watchlist</h2>
       </div>
     </div>
   );

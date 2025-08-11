@@ -3,8 +3,10 @@ import { supabase } from "@/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 
 interface Profile {
+  avatar_url: string | null;
   user_id: string;
-  name: string;
+  name: string | null;
+  created_at: string;
 }
 
 function useAuthStatus() {
@@ -17,16 +19,17 @@ function useAuthStatus() {
     const checkLoginStatus = async () => {
       try {
         const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          setUser(data.session.user);
 
-        setUser(data?.session?.user ?? null);
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("user_id", data.session.user.id)
+            .single();
 
-        const { data: profileData } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("user_id", data.session?.user.id)
-          .single();
-
-        setProfile(profileData);
+          setProfile(profileData);
+        }
 
         setIsLoading(false);
       } catch (error) {

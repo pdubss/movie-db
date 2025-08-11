@@ -1,9 +1,12 @@
 import { IMAGE_BASE_URL } from "@/components/ui/Slide";
 import Spinner from "@/components/ui/Spinner";
+import useAuthStatus from "@/hooks/useAuthStatus";
 import { getMovieById } from "@/queries/queries";
 import { queryClient } from "@/queryClient";
+import addToWatchlist from "@/utils/addToWatchlist";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export const Route = createFileRoute("/movies/$movieId/")({
   component: RouteComponent,
@@ -19,12 +22,27 @@ export const Route = createFileRoute("/movies/$movieId/")({
 });
 
 function RouteComponent() {
+  const { user, profile } = useAuthStatus();
   const { movieId } = Route.useParams();
   const { details } = Route.useLoaderData();
   const [isWatchlist, setIsWatchlist] = useState(false);
 
+  const watchlistHandler = async () => {
+    try {
+      if (user && profile) {
+        setIsWatchlist((val) => !val);
+        addToWatchlist("movie", +movieId, user.id);
+      } else {
+        toast.error("Must be logged in to use this feature");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex h-full w-full flex-col gap-2 py-2 text-white">
+      <ToastContainer position="top-center" />
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
           <h1 className="text-5xl">{details.movie.title}</h1>
@@ -106,7 +124,7 @@ function RouteComponent() {
         <div className="flex flex-col lg:flex-row lg:justify-between">
           <div className="relative">
             <button
-              onClick={() => setIsWatchlist((val) => !val)}
+              onClick={watchlistHandler}
               className="absolute top-2 left-2 cursor-pointer"
             >
               {isWatchlist ? (
