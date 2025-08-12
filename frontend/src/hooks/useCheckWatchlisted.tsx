@@ -1,10 +1,17 @@
 import { supabase } from "@/supabaseClient";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-function useCheckWatchlisted(type: string, userId: string, id: string) {
-  const [isWatchlisted, setIsWatchlisted] = useState(false);
-
+function useCheckWatchlisted(
+  type: string,
+  userId: string | undefined,
+  id: string,
+  setIsWatchlist: (x: boolean) => void,
+) {
   useEffect(() => {
+    if (!userId) {
+      return;
+    }
+
     const checkIsWatchlisted = async () => {
       try {
         if (type === "movie") {
@@ -16,7 +23,7 @@ function useCheckWatchlisted(type: string, userId: string, id: string) {
 
           if (error) throw new Error("Error fetching watchlist");
 
-          setIsWatchlisted(data?.watchlist_movies.includes(+id));
+          setIsWatchlist(data?.watchlist_movies.includes(+id));
         } else {
           const { data, error } = await supabase
             .from("profiles")
@@ -27,7 +34,7 @@ function useCheckWatchlisted(type: string, userId: string, id: string) {
           if (error) throw new Error("Error fetching watchlist");
 
           if (data.watchlist_shows) {
-            setIsWatchlisted(data.watchlist_shows.includes(+id));
+            setIsWatchlist(data.watchlist_shows.includes(+id));
           }
         }
       } catch (error) {
@@ -35,9 +42,7 @@ function useCheckWatchlisted(type: string, userId: string, id: string) {
       }
     };
     checkIsWatchlisted();
-  }, [userId, type, id]);
-
-  return isWatchlisted;
+  }, [userId, type, id, setIsWatchlist]);
 }
 
 export default useCheckWatchlisted;

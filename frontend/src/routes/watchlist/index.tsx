@@ -6,7 +6,7 @@ export const Route = createFileRoute("/watchlist/")({
 });
 
 function RouteComponent() {
-  const { user } = useAuthStatus();
+  const { user, profile } = useAuthStatus();
 
   if (!user)
     return (
@@ -22,9 +22,13 @@ function RouteComponent() {
     );
 
   return (
-    <div className="flex h-full w-full flex-col items-center py-4">
+    <div className="flex h-full w-full flex-col items-center gap-6 py-4">
       <h1 className="text-3xl font-bold">Watchlist</h1>
-      <p>Come back once the backend is implemented! ETA:2036!</p>
+      <ul className="flex flex-col gap-4">
+        {profile?.watchlist_movies &&
+          profile.watchlist_movies.length > 0 &&
+          profile?.watchlist_movies.map((id) => <li>{id}</li>)}
+      </ul>
     </div>
   );
 }

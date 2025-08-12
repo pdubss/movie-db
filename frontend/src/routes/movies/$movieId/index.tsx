@@ -1,6 +1,7 @@
 import { IMAGE_BASE_URL } from "@/components/ui/Slide";
 import Spinner from "@/components/ui/Spinner";
 import useAuthStatus from "@/hooks/useAuthStatus";
+import useCheckWatchlisted from "@/hooks/useCheckWatchlisted";
 import { getMovieById } from "@/queries/queries";
 import { queryClient } from "@/queryClient";
 import addToWatchlist from "@/utils/addToWatchlist";
@@ -24,8 +25,9 @@ export const Route = createFileRoute("/movies/$movieId/")({
 function RouteComponent() {
   const { user, profile } = useAuthStatus();
   const { movieId } = Route.useParams();
-  const { details } = Route.useLoaderData();
   const [isWatchlist, setIsWatchlist] = useState(false);
+  useCheckWatchlisted("movie", user?.id, movieId, setIsWatchlist);
+  const { details } = Route.useLoaderData();
 
   const watchlistHandler = async () => {
     try {

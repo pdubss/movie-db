@@ -7,6 +7,8 @@ interface Profile {
   user_id: string;
   name: string | null;
   created_at: string;
+  watchlist_movies: number[] | null;
+  watchlist_shows: number[] | null;
 }
 
 function useAuthStatus() {
