@@ -1,26 +1,40 @@
 import { IMAGE_BASE_URL } from "@/components/ui/Slide";
 import Spinner from "@/components/ui/Spinner";
+import useAuthStatus from "@/hooks/useAuthStatus";
+import useCheckWatchlisted from "@/hooks/useCheckWatchlisted";
 import { getShowById } from "@/queries/queries";
+import addToWatchlist from "@/utils/addToWatchlist";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 export const Route = createFileRoute("/shows/$showId/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { user } = useAuthStatus();
   const { showId } = Route.useParams();
+  const [onWatchlist, setOnWatchlist] = useState(false);
+  useCheckWatchlisted("show", user?.id, showId, setOnWatchlist);
   const { data, isLoading } = useQuery({
     queryKey: ["showDetails", showId],
     queryFn: () => getShowById(showId),
   });
-  const [onWatchlist, setOnWatchlist] = useState(false);
 
-  if (data) console.log(data);
+  const watchlistHandler = () => {
+    if (user) {
+      setOnWatchlist((value) => !value);
+      addToWatchlist("show", +showId, user.id);
+    } else {
+      toast.error("Must be logged in to use this feature");
+    }
+  };
 
   return (
     <div className="w-full text-white">
+      <ToastContainer position="top-center" />
       {!isLoading && data ? (
         <div className="flex flex-col gap-4">
           <div className="flex w-full flex-col gap-2 lg:flex-row lg:justify-between">
@@ -105,7 +119,7 @@ function RouteComponent() {
                 src={`${IMAGE_BASE_URL}w500${data.details.poster_path}`}
               />
               <button
-                onClick={() => setOnWatchlist((value) => !value)}
+                onClick={watchlistHandler}
                 className="absolute top-2 left-2 cursor-pointer"
               >
                 <svg

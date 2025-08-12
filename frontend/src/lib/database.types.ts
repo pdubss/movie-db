@@ -18,26 +18,26 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          name: string | null
+          name: string
           user_id: string
           watchlist_movies: number[]
-          watchlist_shows: number[] | null
+          watchlist_shows: number[]
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          name?: string | null
+          name: string
           user_id: string
           watchlist_movies?: number[]
-          watchlist_shows?: number[] | null
+          watchlist_shows?: number[]
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
-          name?: string | null
+          name?: string
           user_id?: string
           watchlist_movies?: number[]
-          watchlist_shows?: number[] | null
+          watchlist_shows?: number[]
         }
         Relationships: []
       }
