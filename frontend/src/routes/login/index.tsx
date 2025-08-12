@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/supabaseClient";
 import { ToastContainer, toast } from "react-toastify";
+import useAuthStatus from "@/hooks/useAuthStatus";
 
 export const Route = createFileRoute("/login/")({
   component: RouteComponent,
@@ -14,6 +15,7 @@ interface Inputs {
 }
 
 function RouteComponent() {
+  const { user } = useAuthStatus();
   const navigate = useNavigate();
   const {
     register,
@@ -33,6 +35,13 @@ function RouteComponent() {
       navigate({ to: "/" });
     }
   };
+
+  if (user)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        Please log out to visit this page
+      </div>
+    );
 
   return (
     <div className="flex h-full w-full items-center justify-center">
