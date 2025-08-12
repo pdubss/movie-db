@@ -38,8 +38,12 @@ const Header = () => {
   });
 
   const logoutHandler = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.error("Logout error", error);
+    if (user) {
+      const { error } = await supabase.auth.signOut();
+      if (error) console.error("Logout error", error);
+    } else {
+      console.warn("No login session found");
+    }
   };
 
   return (

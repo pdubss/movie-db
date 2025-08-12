@@ -43,7 +43,7 @@ function useAuthStatus() {
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null);
-        console.log(session);
+        console.log(session, "useAuthStatus");
         console.log(event, "event");
       },
     );
