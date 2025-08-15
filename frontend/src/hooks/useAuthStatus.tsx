@@ -17,34 +17,41 @@ function useAuthStatus() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const { data } = await supabase.auth.getSession();
-        if (data.session) {
-          setUser(data.session.user);
-
-          const { data: profileData } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("user_id", data.session.user.id)
-            .single();
-
-          setProfile(profileData);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
+  const checkLoginStatus = async () => {
+    try {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        setUser(data.session.user);
       }
-    };
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchProfile = async (id: string) => {
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_id", id)
+      .single();
+
+    setProfile(profileData);
+  };
+
+  useEffect(() => {
     checkLoginStatus();
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setUser(session?.user ?? null);
-        console.log(session, "useAuthStatus");
-        console.log(event, "event");
+        if (event === "SIGNED_IN" && session?.user) {
+          setUser(session?.user);
+          fetchProfile(session?.user.id);
+        }
+        if (event === "SIGNED_OUT") {
+          setProfile(null);
+          setUser(null);
+        }
       },
     );
     return () => listener.subscription.unsubscribe();
