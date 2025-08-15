@@ -82,9 +82,9 @@ function RouteComponent() {
 
   return (
     <div className="flex h-full w-full flex-col items-center gap-6 py-4">
-      <h1 className="text-3xl font-bold">Watchlist</h1>
+      <h1 className="text-4xl font-bold">Watchlist</h1>
       <ul className="flex flex-col gap-4">
-        <h2 className="text-lg font-semibold">Movie Watchlist</h2>
+        <h2 className="text-2xl font-semibold">Films</h2>
         {profile?.watchlist_movies &&
           profile.watchlist_movies.length > 0 &&
           movieDetailQueries.map((movie) =>
@@ -107,7 +107,7 @@ function RouteComponent() {
           )}
       </ul>
       <ul className="flex flex-col gap-4">
-        <h2 className="text-lg font-semibold">TV Show Watchlist</h2>
+        <h2 className="text-2xl font-semibold">TV Shows</h2>
         {profile?.watchlist_shows &&
           profile.watchlist_shows.length > 0 &&
           showDetailQueries.map((show) =>

@@ -27,6 +27,9 @@ import { supabase } from "@/supabaseClient";
 
 const Header = () => {
   const { user, profile } = useAuthStatus();
+  const watchlistLength = (profile?.watchlist_movies ?? []).concat(
+    profile?.watchlist_shows ?? [],
+  ).length;
 
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
@@ -143,8 +146,28 @@ const Header = () => {
           ) : null}
         </ul>
       </div>
-      <Link to="/watchlist" className="hover:text-gray-300">
-        WATCHLIST
+      <Link to="/watchlist" className="relative flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="white"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-7"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+          />
+        </svg>
+        <span className="absolute bottom-0.5 left-1.5 text-2xl text-black">
+          +
+        </span>
+        <span>Watchlist</span>
+        <span className="h-6 w-8 rounded-full bg-yellow-400 text-center text-black">
+          {watchlistLength}
+        </span>
       </Link>
       <Link className="hover:text-gray-300" to="/about">
         ABOUT
