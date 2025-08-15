@@ -10,7 +10,7 @@ export interface Movie {
   vote_count: number;
   release_date: string;
   backdrop_path?: string | undefined;
-  overview?: string | undefined;
+  overview: string;
   id: number;
   genres: Genre[];
   runtime?: number;
@@ -187,7 +187,7 @@ export interface Person {
         }[];
   };
 }
-interface CrewMember extends Person {
+export interface CrewMember extends Person {
   job: string;
   department: string;
 }

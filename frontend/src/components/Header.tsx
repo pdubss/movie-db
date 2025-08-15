@@ -103,6 +103,7 @@ const Header = () => {
                     release_date={movie.release_date}
                     setQuery={setQuery}
                     genres={movie.genres}
+                    overview=""
                   />
                 );
               } else if (category === "tv") {
