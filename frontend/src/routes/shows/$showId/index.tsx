@@ -4,10 +4,11 @@ import useAuthStatus from "@/hooks/useAuthStatus";
 import useCheckWatchlisted from "@/hooks/useCheckWatchlisted";
 import { getShowById } from "@/queries/queries";
 import addToWatchlist from "@/utils/addToWatchlist";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import { queryClient } from "@/queryClient";
 
 export const Route = createFileRoute("/shows/$showId/")({
   component: RouteComponent,
@@ -23,10 +24,17 @@ function RouteComponent() {
     queryFn: () => getShowById(showId),
   });
 
+  const mutation = useMutation({
+    mutationFn: () => addToWatchlist("show", +showId, user!.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
+    },
+  });
+
   const watchlistHandler = () => {
     if (user) {
       setOnWatchlist((value) => !value);
-      addToWatchlist("show", +showId, user.id);
+      mutation.mutate();
     } else {
       toast.error("Must be logged in to use this feature");
     }

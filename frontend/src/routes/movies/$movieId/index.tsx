@@ -5,6 +5,7 @@ import useCheckWatchlisted from "@/hooks/useCheckWatchlisted";
 import { getMovieById } from "@/queries/queries";
 import { queryClient } from "@/queryClient";
 import addToWatchlist from "@/utils/addToWatchlist";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -23,6 +24,13 @@ export const Route = createFileRoute("/movies/$movieId/")({
 });
 
 function RouteComponent() {
+  const mutation = useMutation({
+    mutationFn: () => addToWatchlist("movie", +movieId, user!.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
+    },
+  });
+
   const { user } = useAuthStatus();
   const { movieId } = Route.useParams();
   const [isWatchlist, setIsWatchlist] = useState(false);
@@ -32,7 +40,7 @@ function RouteComponent() {
   const watchlistHandler = async () => {
     if (user) {
       setIsWatchlist((val) => !val);
-      addToWatchlist("movie", +movieId, user.id);
+      mutation.mutate();
     } else {
       toast.error("Must be logged in to use this feature");
     }

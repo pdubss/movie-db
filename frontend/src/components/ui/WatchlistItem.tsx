@@ -46,13 +46,19 @@ export default function WatchlistItem({
         alt="movie poster"
       />
       <div className="flex flex-col justify-around p-2">
-        <Link
-          className="text-lg font-bold hover:text-gray-200"
-          to="/movies/$movieId"
-          params={{ movieId: id }}
-        >
-          {title}
-        </Link>
+        {type === "movie" ? (
+          <Link
+            className="text-lg font-bold hover:text-gray-200"
+            to="/movies/$movieId"
+            params={{ movieId: id }}
+          >
+            {title}
+          </Link>
+        ) : (
+          <Link to="/shows/$showId" params={{ showId: id }}>
+            {title}
+          </Link>
+        )}
         <div className="flex gap-2">
           <span>{year.split("-")[0]}</span>
           {type === "movie" ? <span>{runtime}m</span> : null}
