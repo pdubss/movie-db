@@ -23,22 +23,18 @@ export const Route = createFileRoute("/movies/$movieId/")({
 });
 
 function RouteComponent() {
-  const { user, profile } = useAuthStatus();
+  const { user } = useAuthStatus();
   const { movieId } = Route.useParams();
   const [isWatchlist, setIsWatchlist] = useState(false);
   useCheckWatchlisted("movie", user?.id, movieId, setIsWatchlist);
   const { details } = Route.useLoaderData();
 
   const watchlistHandler = async () => {
-    try {
-      if (user && profile) {
-        setIsWatchlist((val) => !val);
-        addToWatchlist("movie", +movieId, user.id);
-      } else {
-        toast.error("Must be logged in to use this feature");
-      }
-    } catch (error) {
-      console.error(error);
+    if (user) {
+      setIsWatchlist((val) => !val);
+      addToWatchlist("movie", +movieId, user.id);
+    } else {
+      toast.error("Must be logged in to use this feature");
     }
   };
 
