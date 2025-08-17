@@ -102,6 +102,7 @@ function RouteComponent() {
                 vote_count={movie.data.movie.vote_count}
                 director={movie.data.director}
                 stars={movie.data.credits.cast}
+                user_id={user.id}
               />
             ) : null,
           )}
@@ -113,6 +114,7 @@ function RouteComponent() {
           showDetailQueries.map((show) =>
             show.data ? (
               <WatchlistItem
+                key={show.data.details.id}
                 title={show.data.details.name}
                 id={show.data.details.id.toString()}
                 year={show.data.details.first_air_date}
@@ -123,6 +125,7 @@ function RouteComponent() {
                 vote_count={show.data.details.vote_count}
                 stars={show.data.details.aggregate_credits.cast}
                 creator={show.data.details.created_by}
+                user_id={user.id}
               />
             ) : null,
           )}
