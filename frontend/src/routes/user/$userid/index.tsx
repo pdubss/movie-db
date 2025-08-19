@@ -1,6 +1,6 @@
 import Spinner from "@/components/ui/Spinner";
 import useAuthStatus from "@/hooks/useAuthStatus";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import pfp from "../../../assets/Default_pfp.jpg";
 import {
   Dropzone,
@@ -88,6 +88,13 @@ function RouteComponent() {
       <div className="flex flex-col">
         <h2 className="text-2xl">Watchlist</h2>
       </div>
+      <Link
+        className="text-blue-500 hover:text-blue-400"
+        to="/user/$userid/genres"
+        params={{ userid: user.id }}
+      >
+        Select Genre Preferences
+      </Link>
     </div>
   );
 }

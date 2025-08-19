@@ -85,8 +85,7 @@ function RouteComponent() {
       <h1 className="text-4xl font-bold">Watchlist</h1>
       <ul className="flex flex-col gap-4">
         <h2 className="text-2xl font-semibold">Films</h2>
-        {profile?.watchlist_movies &&
-          profile.watchlist_movies.length > 0 &&
+        {profile?.watchlist_movies && profile.watchlist_movies.length > 0 ? (
           movieDetailQueries.map((movie) =>
             movie.data ? (
               <WatchlistItem
@@ -105,12 +104,14 @@ function RouteComponent() {
                 user_id={user.id}
               />
             ) : null,
-          )}
+          )
+        ) : (
+          <span className="text-2xl">No Films on Watchlist!</span>
+        )}
       </ul>
       <ul className="flex flex-col gap-4">
         <h2 className="text-2xl font-semibold">TV Shows</h2>
-        {profile?.watchlist_shows &&
-          profile.watchlist_shows.length > 0 &&
+        {profile?.watchlist_shows && profile.watchlist_shows.length > 0 ? (
           showDetailQueries.map((show) =>
             show.data ? (
               <WatchlistItem
@@ -128,7 +129,10 @@ function RouteComponent() {
                 user_id={user.id}
               />
             ) : null,
-          )}
+          )
+        ) : (
+          <span className="text-2xl">No Shows on Watchlist!</span>
+        )}
       </ul>
     </div>
   );
