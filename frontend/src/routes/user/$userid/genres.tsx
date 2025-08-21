@@ -1,10 +1,25 @@
+import useAuthStatus from "@/hooks/useAuthStatus";
 import { fetchMovieGenres, fetchShowGenres } from "@/queries/queries";
+import { queryClient } from "@/queryClient";
+import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/user/$userid/genres")({
   component: RouteComponent,
+  loader: async ({ params }) => {
+    return {
+      userMovieGenres: await queryClient.ensureQueryData({
+        queryKey: ["userMovieGenres", params.userid],
+        queryFn: () => fetchUserMovieGenres(params.userid),
+      }),
+      userShowGenres: await queryClient.ensureQueryData({
+        queryKey: ["userShowGenres", params.userid],
+        queryFn: () => fetchUserShowGenres(params.userid),
+      }),
+    };
+  },
 });
 
 type FormData = {
@@ -12,7 +27,31 @@ type FormData = {
   movieGenres: string[];
 };
 
+const fetchUserMovieGenres = async (userId: string) => {
+  const { data } = await supabase
+    .from("profiles")
+    .select("movie_genres")
+    .eq("user_id", userId)
+    .single();
+
+  return data;
+};
+
+const fetchUserShowGenres = async (userId: string) => {
+  const { data } = await supabase
+    .from("profiles")
+    .select("show_genres")
+    .eq("user_id", userId)
+    .single();
+
+  return data;
+};
+
 function RouteComponent() {
+  const { userMovieGenres, userShowGenres } = Route.useLoaderData();
+  console.log(userMovieGenres, "userMovieGenres");
+  console.log("userShowGenres", userShowGenres);
+  const { user } = useAuthStatus();
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
       showGenres: [],
@@ -34,6 +73,9 @@ function RouteComponent() {
     queryKey: ["movieGenres"],
     queryFn: () => fetchMovieGenres(),
   });
+
+  if (!user)
+    return <p className="text-center">Must be logged in to view this page</p>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-12">
