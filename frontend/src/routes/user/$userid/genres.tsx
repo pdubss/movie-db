@@ -4,6 +4,7 @@ import { queryClient } from "@/queryClient";
 import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/user/$userid/genres")({
@@ -26,6 +27,44 @@ type FormData = {
   showGenres: string[];
   movieGenres: string[];
 };
+type MovieGenreId =
+  | "28"
+  | "12"
+  | "16"
+  | "35"
+  | "80"
+  | "99"
+  | "18"
+  | "10751"
+  | "14"
+  | "36"
+  | "27"
+  | "10402"
+  | "9648"
+  | "10749"
+  | "878"
+  | "10770"
+  | "53"
+  | "10752"
+  | "37";
+
+type ShowGenreId =
+  | "10759"
+  | "16"
+  | "35"
+  | "80"
+  | "99"
+  | "18"
+  | "10751"
+  | "10762"
+  | "9648"
+  | "10763"
+  | "10764"
+  | "10765"
+  | "10766"
+  | "10767"
+  | "10768"
+  | "37";
 
 const fetchUserMovieGenres = async (userId: string) => {
   const { data } = await supabase
@@ -49,8 +88,14 @@ const fetchUserShowGenres = async (userId: string) => {
 
 function RouteComponent() {
   const { userMovieGenres, userShowGenres } = Route.useLoaderData();
-  console.log(userMovieGenres, "userMovieGenres");
-  console.log("userShowGenres", userShowGenres);
+  const [savedMovieGenres, setSavedMovieGenres] = useState<
+    MovieGenreId[] | null
+  >(null);
+  const [savedShowGenres, setSavedShowGenres] = useState<ShowGenreId[] | null>(
+    null,
+  );
+
+  if (userShowGenres) console.log(userShowGenres.show_genres, "userShowGenres");
   const { user } = useAuthStatus();
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -58,6 +103,17 @@ function RouteComponent() {
       movieGenres: [],
     },
   });
+
+  useEffect(() => {
+    setSavedMovieGenres(
+      userMovieGenres?.movie_genres ? userMovieGenres.movie_genres : null,
+    );
+    setSavedShowGenres(
+      userShowGenres?.show_genres ? userShowGenres.show_genres : null,
+    );
+  }, [userMovieGenres, userShowGenres]);
+
+  console.log(savedMovieGenres, savedShowGenres);
 
   const onSubmit = (data: FormData) => {
     console.log("Selected Movie Genres", data.movieGenres);
@@ -73,6 +129,13 @@ function RouteComponent() {
     queryKey: ["movieGenres"],
     queryFn: () => fetchMovieGenres(),
   });
+
+  if (userMovieGenres)
+    console.log(
+      userMovieGenres.movie_genres,
+      "userMovieGenres",
+      movieGenres?.genres,
+    );
 
   if (!user)
     return <p className="text-center">Must be logged in to view this page</p>;
@@ -105,10 +168,13 @@ function RouteComponent() {
         <div>
           <h2 className="text-xl font-semibold">Movies</h2>
           <ul>
-            {movieGenres && movieGenres.genres.length > 0
+            {movieGenres && userMovieGenres && movieGenres.genres.length > 0
               ? movieGenres.genres.map((movieGenre) => (
                   <li className="flex gap-2" key={movieGenre.id}>
                     <input
+                      checked={(userMovieGenres.movie_genres ?? []).includes(
+                        movieGenre.id.toString() as MovieGenreId,
+                      )}
                       type="checkbox"
                       value={movieGenre.id}
                       id={movieGenre.id.toString()}
