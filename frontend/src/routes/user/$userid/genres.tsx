@@ -88,14 +88,9 @@ const fetchUserShowGenres = async (userId: string) => {
 
 function RouteComponent() {
   const { userMovieGenres, userShowGenres } = Route.useLoaderData();
-  const [savedMovieGenres, setSavedMovieGenres] = useState<
-    MovieGenreId[] | null
-  >(null);
-  const [savedShowGenres, setSavedShowGenres] = useState<ShowGenreId[] | null>(
-    null,
-  );
+  const [savedMovieGenres, setSavedMovieGenres] = useState<MovieGenreId[]>([]);
+  const [savedShowGenres, setSavedShowGenres] = useState<ShowGenreId[]>([]);
 
-  if (userShowGenres) console.log(userShowGenres.show_genres, "userShowGenres");
   const { user } = useAuthStatus();
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -106,10 +101,10 @@ function RouteComponent() {
 
   useEffect(() => {
     setSavedMovieGenres(
-      userMovieGenres?.movie_genres ? userMovieGenres.movie_genres : null,
+      userMovieGenres?.movie_genres ? userMovieGenres.movie_genres : [],
     );
     setSavedShowGenres(
-      userShowGenres?.show_genres ? userShowGenres.show_genres : null,
+      userShowGenres?.show_genres ? userShowGenres.show_genres : [],
     );
   }, [userMovieGenres, userShowGenres]);
 
@@ -129,13 +124,6 @@ function RouteComponent() {
     queryKey: ["movieGenres"],
     queryFn: () => fetchMovieGenres(),
   });
-
-  if (userMovieGenres)
-    console.log(
-      userMovieGenres.movie_genres,
-      "userMovieGenres",
-      movieGenres?.genres,
-    );
 
   if (!user)
     return <p className="text-center">Must be logged in to view this page</p>;
@@ -172,13 +160,25 @@ function RouteComponent() {
               ? movieGenres.genres.map((movieGenre) => (
                   <li className="flex gap-2" key={movieGenre.id}>
                     <input
-                      checked={(userMovieGenres.movie_genres ?? []).includes(
+                      checked={savedMovieGenres.includes(
                         movieGenre.id.toString() as MovieGenreId,
                       )}
                       type="checkbox"
                       value={movieGenre.id}
                       id={movieGenre.id.toString()}
                       {...register("movieGenres")}
+                      onChange={() => {
+                        setSavedMovieGenres((prev) =>
+                          prev.includes(
+                            movieGenre.id.toString() as MovieGenreId,
+                          )
+                            ? prev.filter((x) => x !== movieGenre.id.toString())
+                            : [
+                                ...prev,
+                                movieGenre.id.toString() as MovieGenreId,
+                              ],
+                        );
+                      }}
                     />
                     <label htmlFor={movieGenre.id.toString()}>
                       {movieGenre.name}
