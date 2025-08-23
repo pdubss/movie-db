@@ -45,31 +45,30 @@ function RouteComponent() {
       <h1 className="text-4xl font-bold">Watchlist</h1>
       <ul className="flex w-full flex-col gap-4">
         <h2 className="text-2xl font-semibold">Films</h2>
-        <div className="flex flex-wrap">
-          {profile?.watchlist_movies && profile.watchlist_movies.length > 0 ? (
-            movieDetailQueries.map((movie) =>
-              movie.data ? (
-                <WatchlistItem
-                  key={movie.data.movie.id}
-                  id={movie.data?.movie.id.toString()}
-                  title={movie.data?.movie.title}
-                  year={movie.data.movie.release_date}
-                  overview={movie.data.movie.overview}
-                  poster_path={movie.data.movie.poster_path}
-                  type="movie"
-                  runtime={movie.data.movie.runtime}
-                  vote_average={movie.data.movie.vote_average}
-                  vote_count={movie.data.movie.vote_count}
-                  director={movie.data.director}
-                  stars={movie.data.credits.cast}
-                  user_id={user.id}
-                />
-              ) : null,
-            )
-          ) : (
-            <span className="text-2xl">No Films on Watchlist!</span>
-          )}
-        </div>
+
+        {profile?.watchlist_movies && profile.watchlist_movies.length > 0 ? (
+          movieDetailQueries.map((movie) =>
+            movie.data ? (
+              <WatchlistItem
+                key={movie.data.movie.id}
+                id={movie.data?.movie.id.toString()}
+                title={movie.data?.movie.title}
+                year={movie.data.movie.release_date}
+                overview={movie.data.movie.overview}
+                poster_path={movie.data.movie.poster_path}
+                type="movie"
+                runtime={movie.data.movie.runtime}
+                vote_average={movie.data.movie.vote_average}
+                vote_count={movie.data.movie.vote_count}
+                director={movie.data.director}
+                stars={movie.data.credits.cast}
+                user_id={user.id}
+              />
+            ) : null,
+          )
+        ) : (
+          <span className="text-2xl">No Films on Watchlist!</span>
+        )}
       </ul>
       <ul className="flex flex-col gap-4">
         <h2 className="text-2xl font-semibold">TV Shows</h2>

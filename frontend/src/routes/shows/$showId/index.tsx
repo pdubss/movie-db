@@ -135,7 +135,7 @@ function RouteComponent() {
                   fill={onWatchlist ? "white" : ""}
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
-                  stroke="currentColor"
+                  stroke="black"
                   className="size-8"
                 >
                   <path

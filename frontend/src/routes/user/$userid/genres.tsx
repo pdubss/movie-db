@@ -2,7 +2,7 @@ import useAuthStatus from "@/hooks/useAuthStatus";
 import { fetchMovieGenres, fetchShowGenres } from "@/queries/queries";
 import { queryClient } from "@/queryClient";
 import { supabase } from "@/supabaseClient";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -88,11 +88,42 @@ const fetchUserShowGenres = async (userId: string) => {
 };
 
 function RouteComponent() {
+  const { user } = useAuthStatus();
   const { userMovieGenres, userShowGenres } = Route.useLoaderData();
   const [savedMovieGenres, setSavedMovieGenres] = useState<MovieGenreId[]>([]);
   const [savedShowGenres, setSavedShowGenres] = useState<ShowGenreId[]>([]);
 
-  const { user } = useAuthStatus();
+  const mutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      try {
+        if (user?.id) {
+          const { data: updatedMovieGenres, error: movieError } = await supabase
+            .from("profiles")
+            .update({ movie_genres: data.movieGenres as MovieGenreId[] })
+            .eq("user_id", user.id)
+            .select("movie_genres");
+          console.log(updatedMovieGenres);
+
+          if (movieError) toast.error(movieError.message);
+
+          const { data: updatedShowGenres, error: showError } = await supabase
+            .from("profiles")
+            .update({ show_genres: data.showGenres as ShowGenreId[] })
+            .eq("user_id", user.id)
+            .select("show_genres");
+          console.log(updatedShowGenres);
+          if (showError) toast.error(showError.message);
+          if (!movieError && !showError) toast.success("Preferences updated");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["profile", user?.id] }),
+    onError: (error) => console.error("Error submitting form", error),
+  });
+
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
       showGenres: [],
@@ -112,29 +143,7 @@ function RouteComponent() {
   console.log(savedMovieGenres, savedShowGenres);
 
   const onSubmit = async (data: FormData) => {
-    try {
-      if (user?.id) {
-        const { data: updatedMovieGenres, error: movieError } = await supabase
-          .from("profiles")
-          .update({ movie_genres: data.movieGenres as MovieGenreId[] })
-          .eq("user_id", user.id)
-          .select("movie_genres");
-        console.log(updatedMovieGenres);
-
-        if (movieError) toast.error(movieError.message);
-
-        const { data: updatedShowGenres, error: showError } = await supabase
-          .from("profiles")
-          .update({ show_genres: data.showGenres as ShowGenreId[] })
-          .eq("user_id", user.id)
-          .select("show_genres");
-        console.log(updatedShowGenres);
-        if (showError) toast.error(showError.message);
-        if (!movieError && !showError) toast.success("Preferences updated");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    mutation.mutate(data);
   };
 
   const { data: showGenres, error: showError } = useQuery({

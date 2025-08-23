@@ -169,7 +169,7 @@ export default function WatchlistItem({
         fill="white"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
-        stroke="white"
+        stroke="black"
         className="absolute top-2 left-2 size-8 cursor-pointer"
         onClick={() => mutation.mutate()}
       >
@@ -195,7 +195,11 @@ export default function WatchlistItem({
             {title}
           </Link>
         ) : (
-          <Link to="/shows/$showId" params={{ showId: id }}>
+          <Link
+            className="text-lg font-bold hover:text-gray-200"
+            to="/shows/$showId"
+            params={{ showId: id }}
+          >
             {title}
           </Link>
         )}
