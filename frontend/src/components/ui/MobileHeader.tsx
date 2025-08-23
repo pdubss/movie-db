@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import SlideUpMenu from "./SlideUpMenu";
+import useAuthStatus from "@/hooks/useAuthStatus";
 
 function MobileHeader() {
+  const { user, profile } = useAuthStatus();
   const [showMenu, setShowMenu] = useState(false);
   return (
     <div className="flex h-10 shrink-0 items-center justify-between bg-[#282828] px-4">
@@ -25,9 +27,14 @@ function MobileHeader() {
           />
         </svg>
       </button>
-      <Link to="/login" className="cursor-pointer font-semibold">
-        LOGIN
-      </Link>
+      {user && profile ? (
+        <span className="capitalize">{`Welcome, ${profile.name}`}</span>
+      ) : (
+        <Link to="/login" className="cursor-pointer font-semibold">
+          LOGIN
+        </Link>
+      )}
+
       {showMenu && (
         <SlideUpMenu isOpen={showMenu} onClose={() => setShowMenu(false)} />
       )}
