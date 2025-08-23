@@ -202,7 +202,15 @@ const Header = () => {
                 to="/user/$userid/ratings"
                 params={{ userid: profile.user_id }}
               >
-                Your Ratings
+                Ratings
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                to="/user/$userid/genres"
+                params={{ userid: profile.user_id }}
+              >
+                Genres
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={logoutHandler}>Logout</DropdownMenuItem>

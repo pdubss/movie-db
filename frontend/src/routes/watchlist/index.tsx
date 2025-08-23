@@ -8,46 +8,6 @@ export const Route = createFileRoute("/watchlist/")({
   component: RouteComponent,
 });
 
-// interface WatchlistMovie {
-//   id: string;
-//   title: string;
-//   poster_path: string;
-//   release_date: string;
-//   overview: string;
-//   type: "movie";
-// }
-
-// interface WatchlistShow {
-//   id: string;
-//   name: string;
-//   poster_path: string;
-//   first_air_date: string;
-//   overview: string;
-//   type: "show";
-// }
-
-// function convertMovie(movie: WatchlistMovie): WatchlistItemData {
-//   return {
-//     title: movie.title,
-//     year: movie.release_date.split("-")[0],
-//     poster_path: movie.poster_path,
-//     id: movie.id,
-//     type: "movie",
-//     overview: movie.overview,
-//   };
-// }
-
-// function convertShow(show: WatchlistShow): WatchlistItemData {
-//   return {
-//     title: show.name,
-//     year: show.first_air_date,
-//     id: show.id,
-//     poster_path: show.poster_path,
-//     overview: show.overview,
-//     type: "show",
-//   };
-// }
-
 function RouteComponent() {
   const { user, profile } = useAuthStatus();
 
@@ -83,31 +43,33 @@ function RouteComponent() {
   return (
     <div className="flex h-full w-full flex-col items-center gap-6 py-4">
       <h1 className="text-4xl font-bold">Watchlist</h1>
-      <ul className="flex flex-col gap-4">
+      <ul className="flex w-full flex-col gap-4">
         <h2 className="text-2xl font-semibold">Films</h2>
-        {profile?.watchlist_movies && profile.watchlist_movies.length > 0 ? (
-          movieDetailQueries.map((movie) =>
-            movie.data ? (
-              <WatchlistItem
-                key={movie.data.movie.id}
-                id={movie.data?.movie.id.toString()}
-                title={movie.data?.movie.title}
-                year={movie.data.movie.release_date}
-                overview={movie.data.movie.overview}
-                poster_path={movie.data.movie.poster_path}
-                type="movie"
-                runtime={movie.data.movie.runtime}
-                vote_average={movie.data.movie.vote_average}
-                vote_count={movie.data.movie.vote_count}
-                director={movie.data.director}
-                stars={movie.data.credits.cast}
-                user_id={user.id}
-              />
-            ) : null,
-          )
-        ) : (
-          <span className="text-2xl">No Films on Watchlist!</span>
-        )}
+        <div className="flex flex-wrap">
+          {profile?.watchlist_movies && profile.watchlist_movies.length > 0 ? (
+            movieDetailQueries.map((movie) =>
+              movie.data ? (
+                <WatchlistItem
+                  key={movie.data.movie.id}
+                  id={movie.data?.movie.id.toString()}
+                  title={movie.data?.movie.title}
+                  year={movie.data.movie.release_date}
+                  overview={movie.data.movie.overview}
+                  poster_path={movie.data.movie.poster_path}
+                  type="movie"
+                  runtime={movie.data.movie.runtime}
+                  vote_average={movie.data.movie.vote_average}
+                  vote_count={movie.data.movie.vote_count}
+                  director={movie.data.director}
+                  stars={movie.data.credits.cast}
+                  user_id={user.id}
+                />
+              ) : null,
+            )
+          ) : (
+            <span className="text-2xl">No Films on Watchlist!</span>
+          )}
+        </div>
       </ul>
       <ul className="flex flex-col gap-4">
         <h2 className="text-2xl font-semibold">TV Shows</h2>

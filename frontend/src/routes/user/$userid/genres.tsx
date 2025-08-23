@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
 
 export const Route = createFileRoute("/user/$userid/genres")({
   component: RouteComponent,
@@ -110,9 +111,30 @@ function RouteComponent() {
 
   console.log(savedMovieGenres, savedShowGenres);
 
-  const onSubmit = (data: FormData) => {
-    console.log("Selected Movie Genres", data.movieGenres);
-    console.log("Selected Show Genres", data.showGenres);
+  const onSubmit = async (data: FormData) => {
+    try {
+      if (user?.id) {
+        const { data: updatedMovieGenres, error: movieError } = await supabase
+          .from("profiles")
+          .update({ movie_genres: data.movieGenres as MovieGenreId[] })
+          .eq("user_id", user.id)
+          .select("movie_genres");
+        console.log(updatedMovieGenres);
+
+        if (movieError) toast.error(movieError.message);
+
+        const { data: updatedShowGenres, error: showError } = await supabase
+          .from("profiles")
+          .update({ show_genres: data.showGenres as ShowGenreId[] })
+          .eq("user_id", user.id)
+          .select("show_genres");
+        console.log(updatedShowGenres);
+        if (showError) toast.error(showError.message);
+        if (!movieError && !showError) toast.success("Preferences updated");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { data: showGenres, error: showError } = useQuery({
@@ -130,6 +152,7 @@ function RouteComponent() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-12">
+      <ToastContainer position="top-center" />
       <h1 className="text-center text-3xl font-bold">Favorite Genres</h1>
       <div className="flex justify-center gap-16">
         <div>
@@ -141,8 +164,18 @@ function RouteComponent() {
                     <input
                       type="checkbox"
                       value={showGenre.id}
+                      checked={savedShowGenres.includes(
+                        showGenre.id.toString() as ShowGenreId,
+                      )}
                       id={showGenre.id.toString()}
                       {...register("showGenres")}
+                      onChange={() =>
+                        setSavedShowGenres((prev) =>
+                          prev.includes(showGenre.id.toString() as ShowGenreId)
+                            ? prev.filter((x) => x !== showGenre.id.toString())
+                            : [...prev, showGenre.id.toString() as ShowGenreId],
+                        )
+                      }
                     />
                     <label htmlFor={showGenre.id.toString()}>
                       {showGenre.name}

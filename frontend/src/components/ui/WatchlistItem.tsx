@@ -5,6 +5,7 @@ import { IMAGE_BASE_URL } from "./Slide";
 import addToWatchlist from "@/utils/addToWatchlist";
 import { queryClient } from "@/queryClient";
 import { useMutation } from "@tanstack/react-query";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export interface WatchlistItemData {
   id: string;
@@ -42,12 +43,124 @@ export default function WatchlistItem({
   stars,
   user_id,
 }: WatchlistItemData) {
+  const isMobile = useMediaQuery("(max-width:768px)");
   const mutation = useMutation({
     mutationFn: () => addToWatchlist(type, +id, user_id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user_id] });
     },
   });
+
+  if (isMobile)
+    return (
+      <li className="relative flex flex-col gap-1 rounded-lg border">
+        <div className="flex gap-2">
+          {type === "movie" ? (
+            <Link to="/movies/$movieId" params={{ movieId: id }}>
+              <img
+                className="w-[3rem] rounded-md"
+                src={`${IMAGE_BASE_URL}w92${poster_path}`}
+              />
+            </Link>
+          ) : (
+            <Link to="/shows/$showId" params={{ showId: id }}>
+              <img
+                className="w-[3rem] rounded-md"
+                src={`${IMAGE_BASE_URL}w92${poster_path}`}
+              />
+            </Link>
+          )}
+
+          <div className="flex flex-col">
+            {type === "movie" ? (
+              <Link to="/movies/$movieId" params={{ movieId: id }}>
+                <span className="text-lg">{title}</span>
+              </Link>
+            ) : (
+              <Link to="/shows/$showId" params={{ showId: id }}>
+                <span className="text-lg">{title}</span>
+              </Link>
+            )}
+            <span className="text-sm">{year.split("-")[0]}</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm">{vote_average}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-4 fill-yellow-300"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="text-blue-500">Rate</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-4 text-blue-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col p-1">
+          <span className="text-sm">{overview}</span>
+          <div className="flex flex-col gap-2">
+            {director ? (
+              <div className="flex gap-2">
+                <span>Director</span>
+                <Link
+                  className="text-blue-500 hover:text-blue-400"
+                  to="/people/$personId"
+                  params={{ personId: director.id.toString() }}
+                >
+                  {director.name}
+                </Link>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <span>
+                  {creator && creator.length > 1 ? "Creators" : "Creator"}
+                </span>
+                {creator?.map((creator) => (
+                  <Link
+                    className="text-blue-500 hover:text-blue-400"
+                    key={creator.id}
+                    to="/people/$personId"
+                    params={{ personId: creator.id.toString() }}
+                  >
+                    {creator.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+            <div className="flex flex-wrap gap-2">
+              <span>Starring </span>
+              {stars.slice(0, 3).map((star) => (
+                <Link
+                  className="text-blue-500 hover:text-blue-400"
+                  to="/people/$personId"
+                  params={{ personId: star.id.toString() }}
+                >
+                  {star.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </li>
+    );
 
   return (
     <li className="relative flex gap-2 rounded-lg border border-white">
@@ -68,7 +181,7 @@ export default function WatchlistItem({
       </svg>
 
       <img
-        className="w-30 rounded-lg"
+        className="h-[10rem] rounded-lg md:w-30"
         src={`${IMAGE_BASE_URL}w185${poster_path}`}
         alt="movie poster"
       />
@@ -107,7 +220,7 @@ export default function WatchlistItem({
           <span className="text-xs">({vote_count})</span>
         </div>
 
-        <span className="text-sm">{overview}</span>
+        <span className="flex flex-wrap text-sm">{overview}</span>
         <div className="flex gap-2">
           {type === "movie" ? (
             <div className="flex gap-2">
@@ -145,7 +258,7 @@ export default function WatchlistItem({
           ) : null}
           <div className="flex gap-2">
             <h3 className="font-semibold">Starring</h3>
-            <ul className="flex gap-2">
+            <ul className="flex flex-wrap gap-2">
               {stars.slice(0, 6).map((actor) => (
                 <Link
                   key={actor.id}
