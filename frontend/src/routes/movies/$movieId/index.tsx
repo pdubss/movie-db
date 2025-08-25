@@ -1,3 +1,5 @@
+import Overlay from "@/components/ui/Overlay";
+import Rating from "@/components/ui/Rating";
 import { IMAGE_BASE_URL } from "@/components/ui/Slide";
 import Spinner from "@/components/ui/Spinner";
 import useAuthStatus from "@/hooks/useAuthStatus";
@@ -31,6 +33,8 @@ function RouteComponent() {
     },
   });
 
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [rating, setRating] = useState<number | null>(null);
   const { user } = useAuthStatus();
   const { movieId } = Route.useParams();
   const [isWatchlist, setIsWatchlist] = useState(false);
@@ -49,6 +53,18 @@ function RouteComponent() {
   return (
     <div className="flex h-full w-full flex-col gap-2 py-2 text-white">
       <ToastContainer position="top-center" />
+      {showOverlay && (
+        <Overlay setOpenOverlay={setShowOverlay}>
+          <Rating
+            type={"movie"}
+            title={details.movie.title}
+            setRating={setRating}
+            rating={rating}
+            user={user}
+            id={details.movie.id}
+          />
+        </Overlay>
+      )}
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
           <h1 className="text-5xl">{details.movie.title}</h1>
@@ -81,7 +97,10 @@ function RouteComponent() {
             </div>
             <div className="flex flex-col">
               <span className="font-semibold">YOUR RATING</span>
-              <button className="flex cursor-pointer items-center justify-center gap-1">
+              <button
+                onClick={() => setShowOverlay(true)}
+                className="flex cursor-pointer items-center justify-center gap-1"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

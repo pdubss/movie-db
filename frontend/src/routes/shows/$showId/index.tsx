@@ -49,6 +49,7 @@ function RouteComponent() {
       {showOverlay && data && (
         <Overlay setOpenOverlay={setShowOverlay}>
           <Rating
+            id={+showId}
             user={user}
             rating={rating}
             setRating={setRating}

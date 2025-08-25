@@ -9,9 +9,10 @@ interface RatingProps {
   setRating: (x: number) => void;
   rating: number | null;
   user: User | null;
+  id: number | null;
 }
 
-function Rating({ type, title, setRating, rating, user }: RatingProps) {
+function Rating({ type, title, setRating, rating, user, id }: RatingProps) {
   const submitRatingHandler = async (rating: number | null) => {
     if (!user) {
       return toast.error("Must be logged in to rate");
@@ -20,11 +21,38 @@ function Rating({ type, title, setRating, rating, user }: RatingProps) {
       return toast.error("Select a rating before submitting");
     }
     try {
-      if (type === "movie") {
-        const { data: movieRatings, error: movieErrors } = await supabase
-          .from("profiles")
-          .select("movie_ratings")
-          .eq("user_id", user.id);
+      if (type === "movie" && id) {
+        const { data: movieData } = await supabase
+          .from("movie_ratings")
+          .upsert(
+            {
+              user_id: user.id,
+              movie_id: id,
+              rating,
+            },
+            { onConflict: "movie_id" },
+          )
+          .select()
+          .single();
+
+        console.log(movieData);
+      }
+
+      if (type === "show" && id) {
+        const { data: showData, error: showError } = await supabase
+          .from("show_ratings")
+          .upsert(
+            {
+              user_id: user.id,
+              show_id: id,
+              rating,
+            },
+            { onConflict: "show_id" },
+          )
+          .select()
+          .single();
+        console.log(showData);
+        if (showError) console.error(showError);
       }
     } catch (error) {
       console.error(error);
