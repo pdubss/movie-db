@@ -14,6 +14,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      movie_ratings: {
+        Row: {
+          id: number
+          movie_id: number
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          id?: number
+          movie_id: number
+          rating: number
+          user_id: string
+        }
+        Update: {
+          id?: number
+          movie_id?: number
+          rating?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movie_ratings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -46,6 +75,35 @@ export type Database = {
           watchlist_shows?: number[]
         }
         Relationships: []
+      }
+      show_ratings: {
+        Row: {
+          id: number
+          rating: number
+          show_id: number
+          user_id: string
+        }
+        Insert: {
+          id?: number
+          rating: number
+          show_id: number
+          user_id: string
+        }
+        Update: {
+          id?: number
+          rating?: number
+          show_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "show_ratings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
     }
     Views: {
